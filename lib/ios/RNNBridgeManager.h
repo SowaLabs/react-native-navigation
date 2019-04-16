@@ -13,4 +13,9 @@ typedef UIViewController * (^RNNExternalViewCreator)(NSDictionary* props, RCTBri
 
 - (void)setJSCodeLocation:(NSURL *)jsCodeLocation;
 
+// exposed for BISON
+-(void)setRoot:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(void))completionBlock;
+-(void)showModal:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(NSString *))completionBlock;
+-(void)dismissModal:(NSString*)commandId componentId:(NSString*)componentId mergeOptions:(NSDictionary*)options completion:(void (^)(void))completionBlock;
+
 @end

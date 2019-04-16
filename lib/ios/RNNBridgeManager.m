@@ -118,5 +118,31 @@
 	UIApplication.sharedApplication.delegate.window.rootViewController = nil;
 }
 
+# pragma mark - exposed for BISON
+
+-(void)setRoot:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(void))completionBlock {
+	[_commandsHandler setRoot:layout commandId:commandId completion:^{
+		if (completionBlock) {
+			completionBlock();
+		}
+	}];
+}
+
+-(void)showModal:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(NSString *))completionBlock {
+	[_commandsHandler showModal:layout commandId:commandId completion:^(NSString *componentId) {
+		if (completionBlock) {
+			completionBlock(componentId);
+		}
+	}];
+}
+
+-(void)dismissModal:(NSString*)commandId componentId:(NSString*)componentId mergeOptions:(NSDictionary*)options completion:(void (^)(void))completionBlock {
+	[_commandsHandler dismissModal:componentId commandId:commandId mergeOptions:options completion:^{
+		if (completionBlock) {
+			completionBlock();
+		}
+	} rejection:NULL];
+}
+
 @end
 
