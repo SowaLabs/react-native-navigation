@@ -93,7 +93,7 @@
 - (void)testPopGestureEnabled_false {
 	NSNumber* popGestureEnabled = @(0);
 	RNNNavigationOptions* options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	options.popGesture = [[Bool alloc] initWithValue:popGestureEnabled];
+	options.popGesture = [[RNNBool alloc] initWithValue:popGestureEnabled];
 	
 	self.uut = [self createNavigationControllerWithOptions:options];
 	[self.uut viewWillAppear:false];
@@ -104,7 +104,7 @@
 - (void)testPopGestureEnabled_true {
 	NSNumber* popGestureEnabled = @(1);
 	RNNNavigationOptions* options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	options.popGesture = [[Bool alloc] initWithValue:popGestureEnabled];
+	options.popGesture = [[RNNBool alloc] initWithValue:popGestureEnabled];
 	
 	self.uut = [self createNavigationControllerWithOptions:options];
 	[self.uut onChildWillAppear];
@@ -125,7 +125,7 @@
 
 - (void)testTopBarBackgroundClipToBounds_true {
 	RNNNavigationOptions* options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	options.topBar.background.clipToBounds = [[Bool alloc] initWithValue:@(1)];
+	options.topBar.background.clipToBounds = [[RNNBool alloc] initWithValue:@(1)];
 	
 	self.uut = [self createNavigationControllerWithOptions:options];
 	[self.uut onChildWillAppear];
@@ -135,7 +135,7 @@
 
 - (void)testTopBarBackgroundClipToBounds_false {
 	RNNNavigationOptions* options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	options.topBar.background.clipToBounds = [[Bool alloc] initWithValue:@(0)];
+	options.topBar.background.clipToBounds = [[RNNBool alloc] initWithValue:@(0)];
 	
 	self.uut = [self createNavigationControllerWithOptions:options];
 	

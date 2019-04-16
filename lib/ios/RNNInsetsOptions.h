@@ -2,9 +2,9 @@
 
 @interface RNNInsetsOptions : RNNOptions
 
-@property (nonatomic, strong) Double* top;
-@property (nonatomic, strong) Double* left;
-@property (nonatomic, strong) Double* right;
-@property (nonatomic, strong) Double* bottom;
+@property (nonatomic, strong) RNNDouble* top;
+@property (nonatomic, strong) RNNDouble* left;
+@property (nonatomic, strong) RNNDouble* right;
+@property (nonatomic, strong) RNNDouble* bottom;
 
 @end

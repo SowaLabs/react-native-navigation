@@ -1,5 +1,5 @@
-#import "Bool.h"
+#import "RNNBool.h"
 
-@interface NullBool : Bool
+@interface NullBool : RNNBool
 
 @end

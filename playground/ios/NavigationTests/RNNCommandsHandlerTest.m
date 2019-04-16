@@ -266,7 +266,7 @@
 	[self.uut setReadyToReceiveCommands:true];
 	id classMock = OCMClassMock([RNNLayoutManager class]);
 	OCMStub(ClassMethod([classMock findComponentForId:@"vc1"])).andReturn(_nvc);
-	self.vc2.options.animations.setStackRoot.enable = [[Bool alloc] initWithBOOL:NO];
+	self.vc2.options.animations.setStackRoot.enable = [[RNNBool alloc] initWithBOOL:NO];
 	
 	[self.uut setStackRoot:@"vc1" commandId:@"" children:nil completion:^{
 
@@ -285,7 +285,7 @@
 	OCMStub([self.controllerFactory createChildrenLayout:[OCMArg any]]).andReturn(newViewControllers);
 	[self.uut setReadyToReceiveCommands:true];
 	
-	_vc3.options.animations.setStackRoot.enable = [[Bool alloc] initWithBOOL:NO];
+	_vc3.options.animations.setStackRoot.enable = [[RNNBool alloc] initWithBOOL:NO];
 	[self.uut setStackRoot:@"vc1" commandId:@"" children:nil completion:^{
 	
 	} rejection:^(NSString *code, NSString *message, NSError *error) {
@@ -312,7 +312,7 @@
 }
 
 - (void)testSetStackRoot_waitForRender {
-	_vc2.options.animations.setStackRoot.waitForRender = [[Bool alloc] initWithBOOL:YES];
+	_vc2.options.animations.setStackRoot.waitForRender = [[RNNBool alloc] initWithBOOL:YES];
 	id vc1Mock = OCMPartialMock(_vc1);
 	id vc2Mock = OCMPartialMock(_vc2);
 	
@@ -334,7 +334,7 @@
 - (void)testSetRoot_waitForRenderTrue {
 	[self.uut setReadyToReceiveCommands:true];
 	self.vc1.options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	self.vc1.options.animations.setRoot.waitForRender = [[Bool alloc] initWithBOOL:YES];
+	self.vc1.options.animations.setRoot.waitForRender = [[RNNBool alloc] initWithBOOL:YES];
 	
 	id mockedVC = [OCMockObject partialMockForObject:self.vc1];
 	OCMStub([self.controllerFactory createLayout:[OCMArg any]]).andReturn(mockedVC);
@@ -347,7 +347,7 @@
 - (void)testSetRoot_waitForRenderFalse {
 	[self.uut setReadyToReceiveCommands:true];
 	self.vc1.options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	self.vc1.options.animations.setRoot.waitForRender = [[Bool alloc] initWithBOOL:NO];
+	self.vc1.options.animations.setRoot.waitForRender = [[RNNBool alloc] initWithBOOL:NO];
 	
 	id mockedVC = [OCMockObject partialMockForObject:self.vc1];
 	OCMStub([self.controllerFactory createLayout:[OCMArg any]]).andReturn(mockedVC);
@@ -378,7 +378,7 @@
 	[self.uut setReadyToReceiveCommands:true];
 	RNNNavigationOptions* options = [[RNNNavigationOptions alloc] initEmptyOptions];
 	options.bottomTabs.tabsAttachMode = [[BottomTabsAttachMode alloc] initWithValue:@"onSwitchToTab"];
-	options.animations.setRoot.waitForRender = [[Bool alloc] initWithBOOL:YES];
+	options.animations.setRoot.waitForRender = [[RNNBool alloc] initWithBOOL:YES];
 	
 	BottomTabsBaseAttacher* attacher = [[[BottomTabsAttachModeFactory alloc] initWithDefaultOptions:nil] fromOptions:options];
 	RNNBottomTabsController* tabBarController = [[RNNBottomTabsController alloc] initWithLayoutInfo:nil creator:nil options:options defaultOptions:[[RNNNavigationOptions alloc] initEmptyOptions] presenter:[RNNBasePresenter new] bottomTabPresenter:nil dotIndicatorPresenter:nil eventEmitter:_eventEmmiter childViewControllers:@[_vc1, _vc2] bottomTabsAttacher:attacher];
@@ -396,7 +396,7 @@
 	[self.uut setReadyToReceiveCommands:true];
 	RNNNavigationOptions* options = [[RNNNavigationOptions alloc] initEmptyOptions];
 	options.bottomTabs.tabsAttachMode = [[BottomTabsAttachMode alloc] initWithValue:@"afterInitialTab"];
-	options.animations.setRoot.waitForRender = [[Bool alloc] initWithBOOL:YES];
+	options.animations.setRoot.waitForRender = [[RNNBool alloc] initWithBOOL:YES];
 
 	BottomTabsBaseAttacher* attacher = [[[BottomTabsAttachModeFactory alloc] initWithDefaultOptions:nil] fromOptions:options];
 	RNNBottomTabsController* tabBarController = [[RNNBottomTabsController alloc] initWithLayoutInfo:nil creator:nil options:options defaultOptions:[[RNNNavigationOptions alloc] initEmptyOptions] presenter:[RNNBasePresenter new] bottomTabPresenter:nil dotIndicatorPresenter:nil eventEmitter:_eventEmmiter childViewControllers:@[_vc1, _vc2] bottomTabsAttacher:attacher];
@@ -475,7 +475,7 @@
 - (void)testShowModal_shouldShowAnimated {
 	[self.uut setReadyToReceiveCommands:true];
 	self.vc1.options = [[RNNNavigationOptions alloc] initEmptyOptions];
-	self.vc1.options.animations.showModal.enable = [[Bool alloc] initWithBOOL:YES];
+	self.vc1.options.animations.showModal.enable = [[RNNBool alloc] initWithBOOL:YES];
 	
 	id mockedVC = [OCMockObject partialMockForObject:self.vc1];
 	OCMStub([self.controllerFactory createLayout:[OCMArg any]]).andReturn(mockedVC);

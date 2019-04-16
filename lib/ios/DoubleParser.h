@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
-#import "Double.h"
+#import "RNNDouble.h"
 
 @interface DoubleParser : NSObject
 
-+ (Double *)parse:(NSDictionary *)json key:(NSString *)key;
++ (RNNDouble *)parse:(NSDictionary *)json key:(NSString *)key;
 
 @end

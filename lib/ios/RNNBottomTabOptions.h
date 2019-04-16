@@ -17,11 +17,11 @@
 @property(nonatomic, strong) Color *iconColor;
 @property(nonatomic, strong) Color *selectedIconColor;
 @property(nonatomic, strong) Color *selectedTextColor;
-@property(nonatomic, strong) Dictionary *iconInsets;
+@property(nonatomic, strong) RNNDictionary *iconInsets;
 @property(nonatomic, strong) Color *textColor;
 @property(nonatomic, strong) Number *fontSize;
-@property(nonatomic, strong) Bool *visible;
-@property(nonatomic, strong) Bool *selectTabOnPress;
+@property(nonatomic, strong) RNNBool *visible;
+@property(nonatomic, strong) RNNBool *selectTabOnPress;
 
 - (BOOL)hasValue;
 

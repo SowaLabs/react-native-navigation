@@ -46,9 +46,9 @@
     RNNNavigationOptions *initialOptions = [[RNNNavigationOptions alloc] initEmptyOptions];
     initialOptions.bottomTabs.testID = [[Text alloc] initWithValue:@"testID"];
     initialOptions.bottomTabs.backgroundColor = [[Color alloc] initWithValue:[UIColor redColor]];
-    initialOptions.bottomTabs.translucent = [[Bool alloc] initWithValue:@(0)];
-    initialOptions.bottomTabs.hideShadow = [[Bool alloc] initWithValue:@(1)];
-    initialOptions.bottomTabs.visible = [[Bool alloc] initWithValue:@(0)];
+    initialOptions.bottomTabs.translucent = [[RNNBool alloc] initWithValue:@(0)];
+    initialOptions.bottomTabs.hideShadow = [[RNNBool alloc] initWithValue:@(1)];
+    initialOptions.bottomTabs.visible = [[RNNBool alloc] initWithValue:@(0)];
     initialOptions.bottomTabs.barStyle = [[Text alloc] initWithValue:@"black"];
 
     [[self.boundViewController expect] setTabBarTestID:@"testID"];

@@ -1,12 +1,12 @@
-#import "Double.h"
+#import "RNNDouble.h"
 
-@interface Double()
+@interface RNNDouble()
 
 @property (nonatomic, retain) NSNumber* value;
 
 @end
 
-@implementation Double
+@implementation RNNDouble
 
 + (instancetype)withValue:(double)value {
     return [[self.class alloc] initWithValue:@(value)];

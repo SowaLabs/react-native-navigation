@@ -9,8 +9,8 @@
 @property (nonatomic, strong) Text* transition;
 @property (nonatomic, strong) Text* testID;
 @property (nonatomic, strong) Color* color;
-@property (nonatomic, strong) Bool* showTitle;
-@property (nonatomic, strong) Bool* visible;
+@property (nonatomic, strong) RNNBool* showTitle;
+@property (nonatomic, strong) RNNBool* visible;
 
 - (BOOL)hasValue;
 

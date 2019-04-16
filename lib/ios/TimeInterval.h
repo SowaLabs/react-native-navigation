@@ -1,6 +1,6 @@
-#import "Double.h"
+#import "RNNDouble.h"
 
-@interface TimeInterval : Double
+@interface TimeInterval : RNNDouble
 
 - (NSTimeInterval)get;
 

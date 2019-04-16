@@ -32,7 +32,7 @@
 	self.deprecations = [[DeprecationOptions alloc] initWithDict:dict[@"deprecations"]];
 	self.window = [[WindowOptions alloc] initWithDict:dict[@"window"]];
 	
-	self.popGesture = [[Bool alloc] initWithValue:dict[@"popGesture"]];
+	self.popGesture = [[RNNBool alloc] initWithValue:dict[@"popGesture"]];
 	
 	self.backgroundImage = [ImageParser parse:dict key:@"backgroundImage"];
 	self.rootBackgroundImage = [ImageParser parse:dict key:@"rootBackgroundImage"];

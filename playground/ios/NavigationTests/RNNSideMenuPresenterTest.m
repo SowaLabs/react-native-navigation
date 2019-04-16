@@ -42,12 +42,12 @@
 }
 
 - (void)testApplyOptionsShouldSetInitialValues {
-	self.options.sideMenu.left.enabled = [[Bool alloc] initWithBOOL:NO];
-	self.options.sideMenu.right.enabled = [[Bool alloc] initWithBOOL:NO];
-	self.options.sideMenu.left.shouldStretchDrawer = [[Bool alloc] initWithBOOL:NO];
-	self.options.sideMenu.right.shouldStretchDrawer = [[Bool alloc] initWithBOOL:NO];
-	self.options.sideMenu.right.animationVelocity = [[Double alloc] initWithValue:@(100.0f)];
-	self.options.sideMenu.left.animationVelocity = [[Double alloc] initWithValue:@(100.0f)];
+	self.options.sideMenu.left.enabled = [[RNNBool alloc] initWithBOOL:NO];
+	self.options.sideMenu.right.enabled = [[RNNBool alloc] initWithBOOL:NO];
+	self.options.sideMenu.left.shouldStretchDrawer = [[RNNBool alloc] initWithBOOL:NO];
+	self.options.sideMenu.right.shouldStretchDrawer = [[RNNBool alloc] initWithBOOL:NO];
+	self.options.sideMenu.right.animationVelocity = [[RNNDouble alloc] initWithValue:@(100.0f)];
+	self.options.sideMenu.left.animationVelocity = [[RNNDouble alloc] initWithValue:@(100.0f)];
 	
 	[[self.boundViewController expect] side:MMDrawerSideLeft enabled:NO];
 	[[self.boundViewController expect] side:MMDrawerSideRight enabled:NO];
@@ -62,8 +62,8 @@
 }
 
 - (void)testApplyOptionsOnInitShouldSetWidthOptions {
-	self.options.sideMenu.right.width = [[Double alloc] initWithValue:@(100.0f)];
-	self.options.sideMenu.left.width = [[Double alloc] initWithValue:@(100.0f)];
+	self.options.sideMenu.right.width = [[RNNDouble alloc] initWithValue:@(100.0f)];
+	self.options.sideMenu.left.width = [[RNNDouble alloc] initWithValue:@(100.0f)];
 
 	[[self.boundViewController expect] side:MMDrawerSideLeft width:100.0f];
 	[[self.boundViewController expect] side:MMDrawerSideRight width:100.0f];

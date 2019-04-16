@@ -3,14 +3,14 @@
 
 @interface RNNBottomTabsOptions : RNNOptions
 
-@property (nonatomic, strong) Bool* visible;
+@property (nonatomic, strong) RNNBool* visible;
 @property (nonatomic, strong) IntNumber* currentTabIndex;
-@property (nonatomic, strong) Bool* drawBehind;
-@property (nonatomic, strong) Bool* animate;
+@property (nonatomic, strong) RNNBool* drawBehind;
+@property (nonatomic, strong) RNNBool* animate;
 @property (nonatomic, strong) Color* tabColor;
 @property (nonatomic, strong) Color* selectedTabColor;
-@property (nonatomic, strong) Bool* translucent;
-@property (nonatomic, strong) Bool* hideShadow;
+@property (nonatomic, strong) RNNBool* translucent;
+@property (nonatomic, strong) RNNBool* hideShadow;
 @property (nonatomic, strong) Color* backgroundColor;
 @property (nonatomic, strong) Number* fontSize;
 

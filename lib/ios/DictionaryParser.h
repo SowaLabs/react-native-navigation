@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
-#import "Dictionary.h"
+#import "RNNDictionary.h"
 
 @interface DictionaryParser : NSObject
 
-+ (Dictionary *)parse:(NSDictionary *)json key:(NSString *)key;
++ (RNNDictionary *)parse:(NSDictionary *)json key:(NSString *)key;
 
 @end

@@ -4,7 +4,7 @@
 
 @property(nonatomic, strong) Color *color;
 @property(nonatomic, strong) Number *size;
-@property(nonatomic, strong) Bool *visible;
+@property(nonatomic, strong) RNNBool *visible;
 
 - (bool)hasValue;
 

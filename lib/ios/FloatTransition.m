@@ -19,7 +19,7 @@
     return self;
 }
 
-- (instancetype)initWithView:(UIView *)view from:(Double*)from to:(Double*)to startDelay:(NSTimeInterval)startDelay duration:(NSTimeInterval)duration interpolation:(Text *)interpolation {
+- (instancetype)initWithView:(UIView *)view from:(RNNDouble*)from to:(RNNDouble*)to startDelay:(NSTimeInterval)startDelay duration:(NSTimeInterval)duration interpolation:(Text *)interpolation {
     self = [super initWithView:view startDelay:startDelay duration:duration interpolation:interpolation];
     _initialValue = self.initialValue;
     _from = [self calculateFrom:from];
@@ -27,11 +27,11 @@
     return self;
 }
 
-- (CGFloat)calculateFrom:(Double*)from {
+- (CGFloat)calculateFrom:(RNNDouble*)from {
     return from.hasValue ? from.get : _initialValue;
 }
 
-- (CGFloat)calculateTo:(Double*)to {
+- (CGFloat)calculateTo:(RNNDouble*)to {
     return to.hasValue ? to.get : _initialValue;
 }
 
