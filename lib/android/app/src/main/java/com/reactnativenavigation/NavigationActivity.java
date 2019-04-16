@@ -79,7 +79,11 @@ public class NavigationActivity extends AppCompatActivity implements DefaultHard
     @Override
     public void invokeDefaultOnBackPressed() {
         if (!navigator.handleBack(new CommandListenerAdapter())) {
-            super.onBackPressed();
+            // super.onBackPressed();
+            
+            // we are at the root of the back (activity) stack, move the task containing this activity to the back of the activity stack
+            // i.e. the same effect as if we used the home button
+            moveTaskToBack(true);
         }
     }
 
