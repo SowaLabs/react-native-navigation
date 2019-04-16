@@ -78,30 +78,30 @@
 }
 
 - (void)testStatusBarVisible_false {
-	self.options.statusBar.visible = [[Bool alloc] initWithValue:@(0)];
+	self.options.statusBar.visible = [[RNNBool alloc] initWithValue:@(0)];
 	[self.uut viewWillAppear:false];
 
 	XCTAssertTrue([self.uut prefersStatusBarHidden]);
 }
 
 - (void)testStatusBarVisible_true {
-	self.options.statusBar.visible = [[Bool alloc] initWithValue:@(1)];
+	self.options.statusBar.visible = [[RNNBool alloc] initWithValue:@(1)];
 	[self.uut viewWillAppear:false];
 	
 	XCTAssertFalse([self.uut prefersStatusBarHidden]);
 }
 
 - (void)testStatusBarHideWithTopBar_false {
-	self.options.statusBar.hideWithTopBar = [[Bool alloc] initWithValue:@(0)];
-	self.options.topBar.visible = [[Bool alloc] initWithValue:@(0)];
+	self.options.statusBar.hideWithTopBar = [[RNNBool alloc] initWithValue:@(0)];
+	self.options.topBar.visible = [[RNNBool alloc] initWithValue:@(0)];
 	[self.uut viewWillAppear:false];
 
 	XCTAssertFalse([self.uut prefersStatusBarHidden]);
 }
 
 - (void)testStatusBarHideWithTopBar_true {
-	self.options.statusBar.hideWithTopBar = [[Bool alloc] initWithValue:@(1)];
-	self.options.topBar.visible = [[Bool alloc] initWithValue:@(0)];
+	self.options.statusBar.hideWithTopBar = [[RNNBool alloc] initWithValue:@(1)];
+	self.options.topBar.visible = [[RNNBool alloc] initWithValue:@(0)];
 	__unused RNNStackController* nav = [self createNavigationController];
 
 	[self.uut viewWillAppear:false];
@@ -151,14 +151,14 @@
 -(void)testTopBarHideOnScroll_true {
 	NSNumber* hideOnScrollInput = @(1);
 	__unused RNNStackController* nav = [self createNavigationController];
-	self.options.topBar.hideOnScroll = [[Bool alloc] initWithValue:hideOnScrollInput];;
+	self.options.topBar.hideOnScroll = [[RNNBool alloc] initWithValue:hideOnScrollInput];;
 	[self.uut viewWillAppear:false];
 	XCTAssertTrue(self.uut.navigationController.hidesBarsOnSwipe);
 }
 
 -(void)testTopBarTranslucent {
 	NSNumber* topBarTranslucentInput = @(0);
-	self.options.topBar.background.translucent = [[Bool alloc] initWithValue:topBarTranslucentInput];
+	self.options.topBar.background.translucent = [[RNNBool alloc] initWithValue:topBarTranslucentInput];
 	__unused RNNStackController* nav = [self createNavigationController];
 	[self.uut viewWillAppear:false];
 	XCTAssertFalse(self.uut.navigationController.navigationBar.translucent);
@@ -204,14 +204,14 @@
 }
 
 -(void)testTopBarLargeTitle_true {
-	self.options.topBar.largeTitle.visible = [[Bool alloc] initWithValue:@(1)];
+	self.options.topBar.largeTitle.visible = [[RNNBool alloc] initWithValue:@(1)];
 	[self.uut viewWillAppear:false];
 	
 	XCTAssertEqual(self.uut.navigationItem.largeTitleDisplayMode, UINavigationItemLargeTitleDisplayModeAlways);
 }
 
 -(void)testTopBarLargeTitle_false {
-	self.options.topBar.largeTitle.visible = [[Bool alloc] initWithValue:@(0)];
+	self.options.topBar.largeTitle.visible = [[RNNBool alloc] initWithValue:@(0)];
 	[self.uut viewWillAppear:false];
 	
 	XCTAssertEqual(self.uut.navigationItem.largeTitleDisplayMode, UINavigationItemLargeTitleDisplayModeNever);
@@ -469,7 +469,7 @@
 
 -(void)testTopBarNoBorderOn {
 	NSNumber* topBarNoBorderInput = @(1);
-	self.options.topBar.noBorder = [[Bool alloc] initWithValue:topBarNoBorderInput];
+	self.options.topBar.noBorder = [[RNNBool alloc] initWithValue:topBarNoBorderInput];
 	__unused RNNStackController* nav = [self createNavigationController];
 	[self.uut viewWillAppear:false];
 	XCTAssertNotNil(self.uut.navigationController.navigationBar.shadowImage);
@@ -477,7 +477,7 @@
 
 -(void)testTopBarNoBorderOff {
 	NSNumber* topBarNoBorderInput = @(0);
-	self.options.topBar.noBorder = [[Bool alloc] initWithValue:topBarNoBorderInput];
+	self.options.topBar.noBorder = [[RNNBool alloc] initWithValue:topBarNoBorderInput];
 	__unused RNNStackController* nav = [self createNavigationController];
 	[self.uut viewWillAppear:false];
 	XCTAssertNil(self.uut.navigationController.navigationBar.shadowImage);
@@ -485,14 +485,14 @@
 
 -(void)testStatusBarBlurOn {
 	NSNumber* statusBarBlurInput = @(1);
-	self.options.statusBar.blur = [[Bool alloc] initWithValue:statusBarBlurInput];
+	self.options.statusBar.blur = [[RNNBool alloc] initWithValue:statusBarBlurInput];
 	[self.uut viewWillAppear:false];
 	XCTAssertNotNil([self.uut.view viewWithTag:BLUR_STATUS_TAG]);
 }
 
 -(void)testStatusBarBlurOff {
 	NSNumber* statusBarBlurInput = @(0);
-	self.options.statusBar.blur = [[Bool alloc] initWithValue:statusBarBlurInput];
+	self.options.statusBar.blur = [[RNNBool alloc] initWithValue:statusBarBlurInput];
 	[self.uut viewWillAppear:false];
 	XCTAssertNil([self.uut.view viewWithTag:BLUR_STATUS_TAG]);
 }
@@ -504,7 +504,7 @@
 }
 
 - (void)testTabBarHidden_false {
-	self.options.bottomTabs.visible = [[Bool alloc] initWithValue:@(1)];
+	self.options.bottomTabs.visible = [[RNNBool alloc] initWithValue:@(1)];
 	[self.uut viewWillAppear:false];
 
 	XCTAssertFalse([self.uut hidesBottomBarWhenPushed]);
@@ -518,7 +518,7 @@
 
 -(void)testTopBarBlur_false {
 	NSNumber* topBarBlurInput = @(0);
-	self.options.topBar.background.blur = [[Bool alloc] initWithValue:topBarBlurInput];
+	self.options.topBar.background.blur = [[RNNBool alloc] initWithValue:topBarBlurInput];
 	__unused RNNStackController* nav = [self createNavigationController];
 	[self.uut viewWillAppear:false];
 	XCTAssertNil([self.uut.navigationController.navigationBar viewWithTag:BLUR_TOPBAR_TAG]);
@@ -526,7 +526,7 @@
 
 -(void)testTopBarBlur_true {
 	NSNumber* topBarBlurInput = @(1);
-	self.options.topBar.background.blur = [[Bool alloc] initWithValue:topBarBlurInput];
+	self.options.topBar.background.blur = [[RNNBool alloc] initWithValue:topBarBlurInput];
 	__unused RNNStackController* nav = [self createNavigationController];
 	[self.uut viewWillAppear:false];
 	XCTAssertNotNil([self.uut.navigationController.navigationBar viewWithTag:BLUR_TOPBAR_TAG]);

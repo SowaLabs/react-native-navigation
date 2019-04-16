@@ -78,7 +78,7 @@
 }
 
 - (void)testApplyOptionsOnInit_setSwipeToDismiss {
-    self.options.modal.swipeToDismiss = [[Bool alloc] initWithBOOL:NO];
+    self.options.modal.swipeToDismiss = [[RNNBool alloc] initWithBOOL:NO];
 	XCTAssertFalse(_boundViewController.modalInPresentation);
     [self.uut applyOptionsOnInit:self.options];
 	XCTAssertTrue(_boundViewController.modalInPresentation);

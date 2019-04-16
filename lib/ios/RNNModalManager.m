@@ -120,7 +120,7 @@
 	} else {
 		[modalToDismiss.view removeFromSuperview];
 		modalToDismiss.view = nil;
-		modalToDismiss.getCurrentChild.resolveOptions.animations.dismissModal.enable = [[Bool alloc] initWithBOOL:NO];
+		modalToDismiss.getCurrentChild.resolveOptions.animations.dismissModal.enable = [[RNNBool alloc] initWithBOOL:NO];
 		[self dismissedModal:modalToDismiss];
 		
 		if (completion) {

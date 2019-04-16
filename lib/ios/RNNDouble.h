@@ -1,6 +1,6 @@
 #import "Param.h"
 
-@interface Double : Param
+@interface RNNDouble : Param
 
 + (instancetype)withValue:(double)value;
 

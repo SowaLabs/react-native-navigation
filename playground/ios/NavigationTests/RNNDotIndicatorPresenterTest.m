@@ -48,7 +48,7 @@
     XCTAssertTrue([self tabHasIndicator]);
 
     DotIndicatorOptions *options = [DotIndicatorOptions new];
-    options.visible = [[Bool alloc] initWithBOOL:NO];
+    options.visible = [[RNNBool alloc] initWithBOOL:NO];
     [[self uut] apply:self.child :options];
 
     XCTAssertFalse([self tabHasIndicator]);
@@ -56,7 +56,7 @@
 
 - (void)testApply_invisibleIndicatorIsNotAdded {
     DotIndicatorOptions *options = [DotIndicatorOptions new];
-    options.visible = [[Bool alloc] initWithBOOL:NO];
+    options.visible = [[RNNBool alloc] initWithBOOL:NO];
     [[self uut] apply:self.child :options];
 
     XCTAssertFalse([self tabHasIndicator]);
@@ -91,21 +91,21 @@
 
 - (void)testApply_itRemovesPreviousIndicator {
     DotIndicatorOptions *options = [DotIndicatorOptions new];
-    options.visible = [[Bool alloc] initWithBOOL:YES];
+    options.visible = [[RNNBool alloc] initWithBOOL:YES];
     options.color = [[Color alloc] initWithValue:[UIColor redColor]];
     options.size = [[Number alloc] initWithValue:[[NSNumber alloc] initWithInt:8]];
 
     [[self uut] apply:self.child :options];
     XCTAssertTrue([self tabHasIndicator]);
 
-    options.visible = [[Bool alloc] initWithBOOL:NO];
+    options.visible = [[RNNBool alloc] initWithBOOL:NO];
     [[self uut] apply:self.child :options];
     XCTAssertFalse([self tabHasIndicator]);
 }
 
 - (void)testApply_indicatorIsAlignedToTopRightOfIcon {
     DotIndicatorOptions *options = [DotIndicatorOptions new];
-    options.visible = [[Bool alloc] initWithBOOL:YES];
+    options.visible = [[RNNBool alloc] initWithBOOL:YES];
     options.size = [[Number alloc] initWithValue:[[NSNumber alloc] initWithInt:8]];
     [[self uut] apply:self.child :options];
     UIView *indicator = [self getIndicator];
@@ -143,7 +143,7 @@
 
 - (void)applyIndicator:(UIColor *) color {
     DotIndicatorOptions *options = [DotIndicatorOptions new];
-    options.visible = [[Bool alloc] initWithBOOL:YES];
+    options.visible = [[RNNBool alloc] initWithBOOL:YES];
     options.color = [[Color alloc] initWithValue:color];
     [[self uut] apply:self.child :options];
 }

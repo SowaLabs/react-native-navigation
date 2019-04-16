@@ -131,8 +131,8 @@
 		5038A3C7216E2D93009280BC /* Number.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038A3C5216E2D93009280BC /* Number.m */; };
 		5038A3CA216E328A009280BC /* Param.h in Headers */ = {isa = PBXBuildFile; fileRef = 5038A3C8216E328A009280BC /* Param.h */; };
 		5038A3CB216E328A009280BC /* Param.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038A3C9216E328A009280BC /* Param.m */; };
-		5038A3CE216E35E0009280BC /* Dictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 5038A3CC216E35E0009280BC /* Dictionary.h */; };
-		5038A3CF216E35E0009280BC /* Dictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038A3CD216E35E0009280BC /* Dictionary.m */; };
+		5038A3CE216E35E0009280BC /* RNNDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 5038A3CC216E35E0009280BC /* RNNDictionary.h */; };
+		5038A3CF216E35E0009280BC /* RNNDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038A3CD216E35E0009280BC /* RNNDictionary.m */; };
 		5038A3D2216E364C009280BC /* Text.h in Headers */ = {isa = PBXBuildFile; fileRef = 5038A3D0216E364C009280BC /* Text.h */; };
 		5038A3D3216E364C009280BC /* Text.m in Sources */ = {isa = PBXBuildFile; fileRef = 5038A3D1216E364C009280BC /* Text.m */; };
 		50395587217480C900B0A663 /* IntNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 50395585217480C900B0A663 /* IntNumber.h */; };
@@ -141,8 +141,8 @@
 		5039558C2174829400B0A663 /* IntNumberParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5039558A2174829400B0A663 /* IntNumberParser.m */; };
 		5039558F217482FE00B0A663 /* NullIntNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = 5039558D217482FE00B0A663 /* NullIntNumber.h */; };
 		50395590217482FE00B0A663 /* NullIntNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 5039558E217482FE00B0A663 /* NullIntNumber.m */; };
-		50395593217485B000B0A663 /* Double.h in Headers */ = {isa = PBXBuildFile; fileRef = 50395591217485B000B0A663 /* Double.h */; };
-		50395594217485B000B0A663 /* Double.m in Sources */ = {isa = PBXBuildFile; fileRef = 50395592217485B000B0A663 /* Double.m */; };
+		50395593217485B000B0A663 /* RNNDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = 50395591217485B000B0A663 /* RNNDouble.h */; };
+		50395594217485B000B0A663 /* RNNDouble.m in Sources */ = {isa = PBXBuildFile; fileRef = 50395592217485B000B0A663 /* RNNDouble.m */; };
 		503955972174864E00B0A663 /* NullDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = 503955952174864E00B0A663 /* NullDouble.h */; };
 		503955982174864E00B0A663 /* NullDouble.m in Sources */ = {isa = PBXBuildFile; fileRef = 503955962174864E00B0A663 /* NullDouble.m */; };
 		5039559B2174867000B0A663 /* DoubleParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 503955992174867000B0A663 /* DoubleParser.h */; };
@@ -180,8 +180,8 @@
 		5047E4F52267568800908DD3 /* RNNExternalComponentStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 5047E4F32267568700908DD3 /* RNNExternalComponentStore.m */; };
 		5048862D20BE976D000908DE /* RNNLayoutOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 5048862B20BE976D000908DE /* RNNLayoutOptions.h */; };
 		5048862E20BE976D000908DE /* RNNLayoutOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5048862C20BE976D000908DE /* RNNLayoutOptions.m */; };
-		50495939216E5750006D2B81 /* Bool.h in Headers */ = {isa = PBXBuildFile; fileRef = 50495937216E5750006D2B81 /* Bool.h */; };
-		5049593A216E5750006D2B81 /* Bool.m in Sources */ = {isa = PBXBuildFile; fileRef = 50495938216E5750006D2B81 /* Bool.m */; };
+		50495939216E5750006D2B81 /* RNNBool.h in Headers */ = {isa = PBXBuildFile; fileRef = 50495937216E5750006D2B81 /* RNNBool.h */; };
+		5049593A216E5750006D2B81 /* RNNBool.m in Sources */ = {isa = PBXBuildFile; fileRef = 50495938216E5750006D2B81 /* RNNBool.m */; };
 		5049593E216F5D73006D2B81 /* BoolParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 5049593C216F5D73006D2B81 /* BoolParser.h */; };
 		5049593F216F5D73006D2B81 /* BoolParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5049593D216F5D73006D2B81 /* BoolParser.m */; };
 		50495942216F5E5D006D2B81 /* NullBool.h in Headers */ = {isa = PBXBuildFile; fileRef = 50495940216F5E5D006D2B81 /* NullBool.h */; };
@@ -619,8 +619,8 @@
 		5038A3C5216E2D93009280BC /* Number.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Number.m; sourceTree = "<group>"; };
 		5038A3C8216E328A009280BC /* Param.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Param.h; sourceTree = "<group>"; };
 		5038A3C9216E328A009280BC /* Param.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Param.m; sourceTree = "<group>"; };
-		5038A3CC216E35E0009280BC /* Dictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
-		5038A3CD216E35E0009280BC /* Dictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Dictionary.m; sourceTree = "<group>"; };
+		5038A3CC216E35E0009280BC /* RNNDictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNNDictionary.h; sourceTree = "<group>"; };
+		5038A3CD216E35E0009280BC /* RNNDictionary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNNDictionary.m; sourceTree = "<group>"; };
 		5038A3D0216E364C009280BC /* Text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Text.h; sourceTree = "<group>"; };
 		5038A3D1216E364C009280BC /* Text.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Text.m; sourceTree = "<group>"; };
 		50395585217480C900B0A663 /* IntNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntNumber.h; sourceTree = "<group>"; };
@@ -629,8 +629,8 @@
 		5039558A2174829400B0A663 /* IntNumberParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntNumberParser.m; sourceTree = "<group>"; };
 		5039558D217482FE00B0A663 /* NullIntNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NullIntNumber.h; sourceTree = "<group>"; };
 		5039558E217482FE00B0A663 /* NullIntNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NullIntNumber.m; sourceTree = "<group>"; };
-		50395591217485B000B0A663 /* Double.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Double.h; sourceTree = "<group>"; };
-		50395592217485B000B0A663 /* Double.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Double.m; sourceTree = "<group>"; };
+		50395591217485B000B0A663 /* RNNDouble.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNNDouble.h; sourceTree = "<group>"; };
+		50395592217485B000B0A663 /* RNNDouble.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNNDouble.m; sourceTree = "<group>"; };
 		503955952174864E00B0A663 /* NullDouble.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NullDouble.h; sourceTree = "<group>"; };
 		503955962174864E00B0A663 /* NullDouble.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NullDouble.m; sourceTree = "<group>"; };
 		503955992174867000B0A663 /* DoubleParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoubleParser.h; sourceTree = "<group>"; };
@@ -668,8 +668,8 @@
 		5047E4F32267568700908DD3 /* RNNExternalComponentStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNExternalComponentStore.m; sourceTree = "<group>"; };
 		5048862B20BE976D000908DE /* RNNLayoutOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNNLayoutOptions.h; sourceTree = "<group>"; };
 		5048862C20BE976D000908DE /* RNNLayoutOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNNLayoutOptions.m; sourceTree = "<group>"; };
-		50495937216E5750006D2B81 /* Bool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bool.h; sourceTree = "<group>"; };
-		50495938216E5750006D2B81 /* Bool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bool.m; sourceTree = "<group>"; };
+		50495937216E5750006D2B81 /* RNNBool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNNBool.h; sourceTree = "<group>"; };
+		50495938216E5750006D2B81 /* RNNBool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNNBool.m; sourceTree = "<group>"; };
 		5049593C216F5D73006D2B81 /* BoolParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoolParser.h; sourceTree = "<group>"; };
 		5049593D216F5D73006D2B81 /* BoolParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoolParser.m; sourceTree = "<group>"; };
 		50495940216F5E5D006D2B81 /* NullBool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NullBool.h; sourceTree = "<group>"; };
@@ -1135,16 +1135,16 @@
 				5038A3C5216E2D93009280BC /* Number.m */,
 				50395585217480C900B0A663 /* IntNumber.h */,
 				50395586217480C900B0A663 /* IntNumber.m */,
-				50395591217485B000B0A663 /* Double.h */,
-				50395592217485B000B0A663 /* Double.m */,
+				50395591217485B000B0A663 /* RNNDouble.h */,
+				50395592217485B000B0A663 /* RNNDouble.m */,
 				503A8A0323BB850A0094D1C4 /* TimeInterval.h */,
 				503A8A0423BB850A0094D1C4 /* TimeInterval.m */,
-				5038A3CC216E35E0009280BC /* Dictionary.h */,
-				5038A3CD216E35E0009280BC /* Dictionary.m */,
+				5038A3CC216E35E0009280BC /* RNNDictionary.h */,
+				5038A3CD216E35E0009280BC /* RNNDictionary.m */,
 				5038A3D0216E364C009280BC /* Text.h */,
 				5038A3D1216E364C009280BC /* Text.m */,
-				50495937216E5750006D2B81 /* Bool.h */,
-				50495938216E5750006D2B81 /* Bool.m */,
+				50495937216E5750006D2B81 /* RNNBool.h */,
+				50495938216E5750006D2B81 /* RNNBool.m */,
 				5012241421736667000F5F98 /* Color.h */,
 				5012241521736667000F5F98 /* Color.m */,
 				5012241821736678000F5F98 /* Image.h */,
@@ -1689,7 +1689,7 @@
 				504AFE761FFFF1E00076E904 /* RNNNavigationOptions.h in Headers */,
 				503A8A1123BC9C040094D1C4 /* ElementBaseTransition.h in Headers */,
 				504AFE771FFFF1E20076E904 /* RNNTopBarOptions.h in Headers */,
-				5038A3CE216E35E0009280BC /* Dictionary.h in Headers */,
+				5038A3CE216E35E0009280BC /* RNNDictionary.h in Headers */,
 				503A8A1D23BCB3230094D1C4 /* RNNReactTitleView.h in Headers */,
 				509416A323A11C340036092C /* Enum.h in Headers */,
 				26916C981E4B9E7700D13680 /* RNNReactRootViewCreator.h in Headers */,
@@ -1750,7 +1750,7 @@
 				503A8A1923BCB2ED0094D1C4 /* RNNReactButtonView.h in Headers */,
 				505EDD3C214FA8000071C7DE /* RNNComponentPresenter.h in Headers */,
 				502CB46E20CD1DDA0019B2FE /* RNNBackButtonOptions.h in Headers */,
-				50495939216E5750006D2B81 /* Bool.h in Headers */,
+				50495939216E5750006D2B81 /* RNNBool.h in Headers */,
 				7B1126A31E2D2B6C00F9B03B /* RNNSplashScreen.h in Headers */,
 				5038A3D2216E364C009280BC /* Text.h in Headers */,
 				261F0E641E6EC94900989DE2 /* RNNModalManager.h in Headers */,
@@ -1830,7 +1830,7 @@
 				50EA541623AEDF5D006F881A /* RNNInterpolator.h in Headers */,
 				5017D9EE239D2FAF00B74047 /* BottomTabsAfterInitialTabAttacher.h in Headers */,
 				5022EDC124053C9F00852BA6 /* TabBarItemAppearanceCreator.h in Headers */,
-				50395593217485B000B0A663 /* Double.h in Headers */,
+				50395593217485B000B0A663 /* RNNDouble.h in Headers */,
 				5050465421F8F4490035497A /* RNNReactComponentRegistry.h in Headers */,
 				504AFE741FFFF0540076E904 /* RNNTopTabsOptions.h in Headers */,
 				50E38DD723A7A2BE009817F6 /* AnimatedViewFactory.h in Headers */,
@@ -2094,7 +2094,7 @@
 				50BCB28E23F2B82100D6C8E5 /* TextStorageTransition.m in Sources */,
 				651E1F8A21FD624600DFEA19 /* UISplitViewController+RNNOptions.m in Sources */,
 				5030B62223D5B4CB008F1642 /* Color+Interpolation.m in Sources */,
-				50395594217485B000B0A663 /* Double.m in Sources */,
+				50395594217485B000B0A663 /* RNNDouble.m in Sources */,
 				504AFE751FFFF0540076E904 /* RNNTopTabsOptions.m in Sources */,
 				50175CD2207A2AA1004FE91B /* RNNComponentOptions.m in Sources */,
 				505C640323E074860078AFC0 /* TopBarTitlePresenter.m in Sources */,
@@ -2110,7 +2110,7 @@
 				50495947216F5FB5006D2B81 /* TextParser.m in Sources */,
 				50F5DFC21F407A8C001A00BC /* RNNBottomTabsController.m in Sources */,
 				50887CA920F26BFE00D06111 /* RNNOverlayWindow.m in Sources */,
-				5038A3CF216E35E0009280BC /* Dictionary.m in Sources */,
+				5038A3CF216E35E0009280BC /* RNNDictionary.m in Sources */,
 				C2A57A1D21E815F80066711C /* InteractivePopGestureDelegate.m in Sources */,
 				4534E72620CB6724009F8185 /* RNNLargeTitleOptions.m in Sources */,
 				507E7D58201DDD3000444E6C /* RNNSharedElementAnimationOptions.m in Sources */,
@@ -2196,7 +2196,7 @@
 				5038A375216CDDB6009280BC /* UIViewController+SideMenuController.m in Sources */,
 				E8E518331F83B3E0000467AC /* RNNUtils.m in Sources */,
 				50451D062042DAEB00695F00 /* RNNPushAnimation.m in Sources */,
-				5049593A216E5750006D2B81 /* Bool.m in Sources */,
+				5049593A216E5750006D2B81 /* RNNBool.m in Sources */,
 				50F5DFC61F407AA0001A00BC /* RNNStackController.m in Sources */,
 				21B85E5D1F44480200B314B5 /* RNNNavigationButtons.m in Sources */,
 				E8E518371F83B94A000467AC /* RNNViewLocation.m in Sources */,

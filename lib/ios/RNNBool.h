@@ -1,6 +1,6 @@
 #import "Param.h"
 
-@interface Bool : Param
+@interface RNNBool : Param
 
 - (instancetype)initWithBOOL:(BOOL)boolValue;
 

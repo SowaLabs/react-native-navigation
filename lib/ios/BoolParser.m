@@ -3,8 +3,8 @@
 
 @implementation BoolParser
 
-+ (Bool *)parse:(NSDictionary *)json key:(NSString *)key {
-	return json[key] ? [[Bool alloc] initWithValue:json[key]] : [NullBool new];
++ (RNNBool *)parse:(NSDictionary *)json key:(NSString *)key {
+	return json[key] ? [[RNNBool alloc] initWithValue:json[key]] : [NullBool new];
 }
 
 @end

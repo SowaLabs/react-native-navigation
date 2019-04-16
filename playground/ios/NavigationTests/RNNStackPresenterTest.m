@@ -46,7 +46,7 @@
 }
 
 - (void)testApplyOptionsShouldSetLargeTitleVisible {
-	_options.topBar.largeTitle.visible = [[Bool alloc] initWithBOOL:YES];
+	_options.topBar.largeTitle.visible = [[RNNBool alloc] initWithBOOL:YES];
 	
 	[self.uut applyOptions:self.options];
 	XCTAssertTrue([[_boundViewController navigationBar] prefersLargeTitles]);
@@ -62,7 +62,7 @@
 - (void)testApplyOptions_shouldSetBackButtonOnBoundViewController_withHideTitle {
 	Text* title = [[Text alloc] initWithValue:@"Title"];
 	self.options.topBar.backButton.title = title;
-	self.options.topBar.backButton.showTitle = [[Bool alloc] initWithValue:@(0)];
+	self.options.topBar.backButton.showTitle = [[RNNBool alloc] initWithValue:@(0)];
 	[self.uut applyOptions:self.options];
 	NSLog(@"%@", self.boundViewController.viewControllers.firstObject.navigationItem.backBarButtonItem.title);
 	XCTAssertTrue([self.boundViewController.viewControllers.firstObject.navigationItem.backBarButtonItem.title isEqualToString:@""]);

@@ -13,8 +13,8 @@
 + (TransitionDetailsOptions *)defaultAlphaTransition {
     TransitionDetailsOptions* defaultAlphaTransition = [TransitionDetailsOptions new];
     defaultAlphaTransition.duration = [TimeInterval withValue:300];
-    defaultAlphaTransition.from = [Double withValue:0];
-    defaultAlphaTransition.to = [Double withValue:1];
+    defaultAlphaTransition.from = [RNNDouble withValue:0];
+    defaultAlphaTransition.to = [RNNDouble withValue:1];
     return defaultAlphaTransition;
 }
 

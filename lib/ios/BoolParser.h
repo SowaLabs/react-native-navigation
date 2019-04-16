@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
-#import "Bool.h"
+#import "RNNBool.h"
 
 @interface BoolParser : NSObject
 
-+ (Bool *)parse:(NSDictionary *)json key:(NSString *)key;
++ (RNNBool *)parse:(NSDictionary *)json key:(NSString *)key;
 
 @end

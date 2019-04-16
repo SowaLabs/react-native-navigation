@@ -58,14 +58,14 @@
 }
 
 - (void)testApplyOptions_drawBehindTabBarTrueWhenVisibleFalse {
-	self.options.bottomTabs.visible = [[Bool alloc] initWithValue:@(0)];
+	self.options.bottomTabs.visible = [[RNNBool alloc] initWithValue:@(0)];
 	[[(id) self.boundViewController expect] setDrawBehindTabBar:YES];
 	[self.uut applyOptionsOnInit:self.options];
 	[(id)self.boundViewController verify];
 }
 
 - (void)testApplyOptions_setOverlayTouchOutsideIfHasValue {
-    self.options.overlay.interceptTouchOutside = [[Bool alloc] initWithBOOL:YES];
+    self.options.overlay.interceptTouchOutside = [[RNNBool alloc] initWithBOOL:YES];
     [(UIViewController *) [(id) self.boundViewController expect] setInterceptTouchOutside:YES];
     [self.uut applyOptions:self.options];
     [(id)self.boundViewController verify];
@@ -78,7 +78,7 @@
 }
 
 -(void)testApplyOptionsOnInit_TopBarDrawUnder_true {
-    self.options.topBar.drawBehind = [[Bool alloc] initWithValue:@(1)];
+    self.options.topBar.drawBehind = [[RNNBool alloc] initWithValue:@(1)];
 
 	[[(id) self.boundViewController expect] setDrawBehindTopBar:YES];
     [self.uut applyOptionsOnInit:self.options];
@@ -86,7 +86,7 @@
 }
 
 -(void)testApplyOptionsOnInit_TopBarDrawUnder_false {
-    self.options.topBar.drawBehind = [[Bool alloc] initWithValue:@(0)];
+    self.options.topBar.drawBehind = [[RNNBool alloc] initWithValue:@(0)];
 
 	[[(id) self.boundViewController expect] setDrawBehindTopBar:NO];
     [self.uut applyOptionsOnInit:self.options];
@@ -94,7 +94,7 @@
 }
 
 -(void)testApplyOptionsOnInit_BottomTabsDrawUnder_true {
-    self.options.bottomTabs.drawBehind = [[Bool alloc] initWithValue:@(1)];
+    self.options.bottomTabs.drawBehind = [[RNNBool alloc] initWithValue:@(1)];
 
 	[[(id) self.boundViewController expect] setDrawBehindTabBar:YES];
     [self.uut applyOptionsOnInit:self.options];
@@ -102,7 +102,7 @@
 }
 
 -(void)testApplyOptionsOnInit_BottomTabsDrawUnder_false {
-    self.options.bottomTabs.drawBehind = [[Bool alloc] initWithValue:@(0)];
+    self.options.bottomTabs.drawBehind = [[RNNBool alloc] initWithValue:@(0)];
 
 	[[(id) self.boundViewController expect] setDrawBehindTabBar:NO];
     [self.uut applyOptionsOnInit:self.options];
@@ -206,7 +206,7 @@
 
 
     _options = [[RNNNavigationOptions alloc] initEmptyOptions];
-    _options.bottomTabs.visible = [[Bool alloc] initWithBOOL:NO];
+    _options.bottomTabs.visible = [[RNNBool alloc] initWithBOOL:NO];
     [self.uut mergeOptions:_options resolvedOptions:[[RNNNavigationOptions alloc] initEmptyOptions]];
     XCTAssertEqual(self.boundViewController.navigationItem.titleView, mockTitle);
 }
