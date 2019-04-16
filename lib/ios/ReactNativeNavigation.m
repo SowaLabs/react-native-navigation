@@ -2,7 +2,6 @@
 
 #import <React/RCTUIManager.h>
 
-#import "RNNBridgeManager.h"
 #import "RNNSplashScreen.h"
 #import "RNNLayoutManager.h"
 
@@ -34,6 +33,10 @@
 
 + (RCTBridge *)getBridge {
 	return [[ReactNativeNavigation sharedInstance].bridgeManager bridge];
+}
+
++ (RNNBridgeManager *)getBridgeManager {
+	return [ReactNativeNavigation sharedInstance].bridgeManager;
 }
 
 + (UIViewController *)findViewController:(NSString *)componentId {

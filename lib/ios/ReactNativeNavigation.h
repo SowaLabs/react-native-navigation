@@ -2,6 +2,7 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTBridge.h>
 #import <React/RCTUIManager.h>
+#import "RNNBridgeManager.h"
 
 typedef UIViewController * (^RNNExternalViewCreator)(NSDictionary* props, RCTBridge* bridge);
 
@@ -20,5 +21,7 @@ typedef UIViewController * (^RNNExternalViewCreator)(NSDictionary* props, RCTBri
 + (void)setJSCodeLocation:(NSURL *)jsCodeLocation;
 
 + (RCTBridge *)getBridge;
+
++ (RNNBridgeManager *)getBridgeManager;
 
 @end
