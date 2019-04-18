@@ -100,6 +100,13 @@ public class Navigator extends ParentController {
     public boolean handleBack(CommandListener listener) {
         if (modalStack.isEmpty() && root == null) return false;
         if (modalStack.isEmpty()) return root.handleBack(listener);
+        // check if we're on a root of a lock screen (modal)
+        if (!modalStack.isEmpty() &&
+                modalStack.get(modalStack.size() - 1) == modalStack.findControllerById("AUTH-MODAL") &&
+                modalStack.findControllerById("AUTH-MODAL") instanceof StackController &&
+                ((StackController)modalStack.findControllerById("AUTH-MODAL")).size() == 1
+        )
+            return false;
         return modalStack.handleBack(listener, root);
     }
 
