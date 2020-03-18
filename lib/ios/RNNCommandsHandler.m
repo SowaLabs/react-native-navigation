@@ -78,8 +78,21 @@ static NSString* const setDefaultOptions	= @"setDefaultOptions";
     [vc setReactViewReadyCallback:^{
         [self->_mainWindow.rootViewController destroy];
         self->_mainWindow.rootViewController = weakVC;
-        [self->_eventEmitter sendOnNavigationCommandCompletion:setRoot commandId:commandId params:@{@"layout": layout}];
-        completion();
+        
+        if ([weakVC.resolveOptionsWithDefault.animations.setRoot.enable getWithDefaultValue:NO]) {
+            // animate controller transition
+            [UIView transitionWithView:self->_mainWindow
+                              duration:[weakVC.resolveOptionsWithDefault.animations.setRoot.duration getWithDefaultValue:500]
+                               options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionCurveEaseInOut
+                            animations:^{ } // root view controller has to be changed outside animations block to work, see https://stackoverflow.com/a/41144822
+                            completion:^(BOOL finished) {
+                [self->_eventEmitter sendOnNavigationCommandCompletion:setRoot commandId:commandId params:@{@"layout": layout}];
+                completion();
+            }];
+        } else {
+            [self->_eventEmitter sendOnNavigationCommandCompletion:setRoot commandId:commandId params:@{@"layout": layout}];
+            completion();
+        }
     }];
     
     [vc render];
