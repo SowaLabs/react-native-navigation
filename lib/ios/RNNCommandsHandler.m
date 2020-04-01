@@ -77,7 +77,13 @@ static NSString* const setDefaultOptions	= @"setDefaultOptions";
     __weak UIViewController* weakVC = vc;
     [vc setReactViewReadyCallback:^{
         [self->_mainWindow.rootViewController destroy];
+        // Transfer status bar appearance control from the presenting to the presented view controller,
+        // otherwise setRootViewController: seems to read status bar style from UIWindow, which causes
+        // a jarring transition on iOS 13 from black to white to black status bar style when calling setRoot:commandId:completion:.
+		// More info: https://stackoverflow.com/a/58877192
+        weakVC.modalPresentationCapturesStatusBarAppearance = YES;
         self->_mainWindow.rootViewController = weakVC;
+        weakVC.modalPresentationCapturesStatusBarAppearance = NO;
         
         if ([weakVC.resolveOptionsWithDefault.animations.setRoot.enable getWithDefaultValue:NO]) {
             // animate controller transition
