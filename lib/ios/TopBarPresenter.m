@@ -21,9 +21,9 @@
 }
 
 - (void)applyOptionsBeforePopping:(RNNTopBarOptions *)options {
-    [self setBackgroundColor:[options.background.color getWithDefaultValue:nil]];
-    [self setTitleAttributes:options.title];
-    [self setLargeTitleAttributes:options.largeTitle];
+//    [self setBackgroundColor:[options.background.color getWithDefaultValue:nil]];
+//    [self setTitleAttributes:options.title];
+//    [self setLargeTitleAttributes:options.largeTitle];
 }
 
 - (void)mergeOptions:(RNNTopBarOptions *)options withDefault:(RNNTopBarOptions *)withDefault {
