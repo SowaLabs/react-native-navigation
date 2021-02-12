@@ -377,6 +377,8 @@
 		50FCD83823FC102200000DD0 /* DeprecationOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 50FCD83623FC102200000DD0 /* DeprecationOptions.m */; };
 		651E1F8A21FD624600DFEA19 /* UISplitViewController+RNNOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 651E1F8921FD624600DFEA19 /* UISplitViewController+RNNOptions.m */; };
 		651E1F8D21FD642100DFEA19 /* RNNSplitViewControllerPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 651E1F8C21FD642100DFEA19 /* RNNSplitViewControllerPresenter.m */; };
+		712BB9CD25DD7A21000B826B /* RNNCustomTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 712BB9CB25DD7A21000B826B /* RNNCustomTabBar.m */; };
+		712BB9CE25DD7A21000B826B /* RNNCustomTabBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 712BB9CC25DD7A21000B826B /* RNNCustomTabBar.h */; };
 		7365071121E4B16F004E020F /* RCTConvert+UIBarButtonSystemItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 7365070F21E4B16F004E020F /* RCTConvert+UIBarButtonSystemItem.h */; };
 		7365071221E4B16F004E020F /* RCTConvert+UIBarButtonSystemItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7365071021E4B16F004E020F /* RCTConvert+UIBarButtonSystemItem.m */; };
 		7B1126A01E2D263F00F9B03B /* RNNEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B11269F1E2D263F00F9B03B /* RNNEventEmitter.m */; };
@@ -869,6 +871,8 @@
 		651E1F8921FD624600DFEA19 /* UISplitViewController+RNNOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UISplitViewController+RNNOptions.m"; sourceTree = "<group>"; };
 		651E1F8B21FD63F400DFEA19 /* RNNSplitViewControllerPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNNSplitViewControllerPresenter.h; sourceTree = "<group>"; };
 		651E1F8C21FD642100DFEA19 /* RNNSplitViewControllerPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNNSplitViewControllerPresenter.m; sourceTree = "<group>"; };
+		712BB9CB25DD7A21000B826B /* RNNCustomTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNNCustomTabBar.m; sourceTree = "<group>"; };
+		712BB9CC25DD7A21000B826B /* RNNCustomTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNCustomTabBar.h; sourceTree = "<group>"; };
 		7365070F21E4B16F004E020F /* RCTConvert+UIBarButtonSystemItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTConvert+UIBarButtonSystemItem.h"; sourceTree = "<group>"; };
 		7365071021E4B16F004E020F /* RCTConvert+UIBarButtonSystemItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTConvert+UIBarButtonSystemItem.m"; sourceTree = "<group>"; };
 		7B11269E1E2D263F00F9B03B /* RNNEventEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNNEventEmitter.h; sourceTree = "<group>"; };
@@ -1485,6 +1489,8 @@
 				7BEF0D1B1E43771B003E96B0 /* RNNLayoutNode.m */,
 				21B85E5E1F44482A00B314B5 /* RNNNavigationButtons.h */,
 				21B85E5C1F44480200B314B5 /* RNNNavigationButtons.m */,
+				712BB9CC25DD7A21000B826B /* RNNCustomTabBar.h */,
+				712BB9CB25DD7A21000B826B /* RNNCustomTabBar.m */,
 				214545261F4DC164006E8DA1 /* RNNUIBarButtonItem.h */,
 				214545241F4DC125006E8DA1 /* RNNUIBarButtonItem.m */,
 				507F43F61FF525B500D9425B /* RNNSegmentedControl.h */,
@@ -1792,6 +1798,7 @@
 				E8A430111F9CB87B00B61A20 /* ElementAlphaTransition.h in Headers */,
 				5017D9E1239D2C6C00B74047 /* BottomTabsAttachModeFactory.h in Headers */,
 				E5F6C3AC22DB4D0F0093C2CE /* UITabBarController+RNNUtils.h in Headers */,
+				712BB9CE25DD7A21000B826B /* RNNCustomTabBar.h in Headers */,
 				506317AA220B547400B26FC3 /* UIImage+insets.h in Headers */,
 				5038A3C6216E2D93009280BC /* Number.h in Headers */,
 				503A8A0123BB7B810094D1C4 /* ElementAnimator.h in Headers */,
@@ -2070,6 +2077,7 @@
 				503A8A0223BB7B810094D1C4 /* ElementAnimator.m in Sources */,
 				5082CC3823CDC3C800FD2B6A /* VerticalTranslationTransition.m in Sources */,
 				390AD478200F499D00A8250D /* RNNSwizzles.m in Sources */,
+				712BB9CD25DD7A21000B826B /* RNNCustomTabBar.m in Sources */,
 				50E02BD921A6EE0F00A43942 /* SideMenuOpenMode.m in Sources */,
 				503A8A0E23BC9BC50094D1C4 /* ElementVerticalTransition.m in Sources */,
 				5022EDBA2405226800852BA6 /* BottomTabAppearancePresenter.m in Sources */,

@@ -1,5 +1,6 @@
 #import "RNNBottomTabsController.h"
 #import "UITabBarController+RNNUtils.h"
+#import "RNNCustomTabBar.h"
 
 @interface RNNBottomTabsController ()
 @property (nonatomic, strong) BottomTabPresenter* bottomTabPresenter;
@@ -33,6 +34,13 @@
         self.tabBar.standardAppearance = [UITabBarAppearance new];
     }
     return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    RNNCustomTabBar *tabBar = [[RNNCustomTabBar alloc] init];
+    // TODO: obfuscate!!!
+    [self setValue:tabBar forKey:@"tabBar"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
