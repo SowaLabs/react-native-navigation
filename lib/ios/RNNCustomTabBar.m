@@ -7,7 +7,7 @@
 
 #import "RNNCustomTabBar.h"
 
-static CGFloat const middleButtonSize = 70;
+static CGFloat const middleButtonSize = 50;
 static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeLayer";
 
 @interface RNNCustomTabBar ()
@@ -20,7 +20,6 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
 - (UIButton *)createMiddleButton {
     CGRect frame = CGRectMake(0, 0, middleButtonSize, middleButtonSize);
     UIButton *middleButton = [[UIButton alloc] initWithFrame:frame];
-    middleButton.center = CGPointMake(self.bounds.size.width / 2, 0);
     middleButton.layer.cornerRadius = middleButtonSize / 2;
     // confines the subview to the bounds of the view
     middleButton.clipsToBounds = YES;
@@ -62,7 +61,9 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
 }
 
 - (CGPathRef)createShapeLayerPathForRect:(CGRect)rect {
-    CGFloat height = 37.0;
+    CGFloat height = 42.0;
+    CGFloat firstParam = 32;
+    CGFloat secondParam = 39;
     CGFloat centerWidth = rect.size.width / 2;
     UIBezierPath* path = [[UIBezierPath alloc] init];
     
@@ -70,17 +71,17 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
     [path moveToPoint:CGPointZero];
     
     // the beginning of the curve
-    [path addLineToPoint:CGPointMake(centerWidth - height * 2, 0)];
+    [path addLineToPoint:CGPointMake(centerWidth - (height * 1.2), 0)];
     
     // first curve
     [path addCurveToPoint:CGPointMake(centerWidth, height)
-            controlPoint1:CGPointMake(centerWidth - 30, 0)
-            controlPoint2:CGPointMake(centerWidth - 35, height)];
+            controlPoint1:CGPointMake(centerWidth - firstParam, 0)
+            controlPoint2:CGPointMake(centerWidth - secondParam, height)];
     
     // second curve
-    [path addCurveToPoint:CGPointMake((centerWidth + (height * 2)), 0)
-            controlPoint1:CGPointMake(centerWidth + 35, height)
-            controlPoint2:CGPointMake((centerWidth + 30), 0)];
+    [path addCurveToPoint:CGPointMake(centerWidth + (height * 1.2), 0)
+            controlPoint1:CGPointMake(centerWidth + secondParam, height)
+            controlPoint2:CGPointMake((centerWidth + firstParam), 0)];
     
     // close the rect
     [path addLineToPoint:CGPointMake(rect.size.width, 0)];
@@ -119,7 +120,7 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
     [super layoutSubviews];
     
     // recenter middle button upon screen rotation
-    self.middleButton.center = CGPointMake(self.bounds.size.width / 2, 0);
+    self.middleButton.center = CGPointMake(self.bounds.size.width / 2, 9);
     
     // create sublayer here, as bounds are guaranteed to be final in layoutSubviews (as opposed to init methods)
     if (!self.shapeSublayer || !CGRectEqualToRect(self.shapeSublayer.frame, self.bounds)) {
