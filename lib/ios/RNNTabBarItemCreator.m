@@ -20,6 +20,10 @@
 	tabItem.title = [bottomTabOptions.text getWithDefaultValue:nil];
 	tabItem.tag = bottomTabOptions.tag;
 	tabItem.accessibilityIdentifier = [bottomTabOptions.testID getWithDefaultValue:nil];
+    // BISON: disable an invisible tab item
+    if ([bottomTabOptions.visible hasValue]) {
+        [tabItem setEnabled:[bottomTabOptions.visible getWithDefaultValue:YES]];
+    }
 	
 	NSDictionary* iconInsets = [bottomTabOptions.iconInsets getWithDefaultValue:nil];
 	if (iconInsets && ![iconInsets isKindOfClass:[NSNull class]]) {
