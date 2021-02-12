@@ -137,6 +137,19 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
     }
 }
 
+// solve hit-test of the middle button outside of tab bar's bounds
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+    // check if point is inside tab bar's bounds
+    if ([super pointInside:point withEvent:event]) {
+        return YES;
+    }
+    
+    // check if point is inside middle button, but outside outside of tab bar's bounds
+    CGFloat diffX = self.middleButton.center.x - point.x;
+    CGFloat diffY = self.middleButton.center.y - point.y;
+    return pow(diffX, 2) + pow(diffY, 2) <= pow(middleButtonSize / 2, 2);
+}
+
 // MARK:- override public setters
 
 - (void)setMiddleButtonBackgroundColor:(UIColor *)middleButtonBackgroundColor {
