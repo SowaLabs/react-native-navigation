@@ -1,4 +1,5 @@
 #import "BottomTabsAppearancePresenter.h"
+#import "RNNBottomTabsController.h"
 #import "UIColor+RNNUtils.h"
 
 @implementation BottomTabsAppearancePresenter
@@ -6,10 +7,16 @@
 # pragma mark - public
 
 - (void)applyBackgroundColor:(UIColor *)backgroundColor translucent:(BOOL)translucent {
-    if (translucent) [self setTabBarTranslucent:YES];
-    else if (backgroundColor.isTransparent) [self setTabBarTransparentBackground];
-    else if (backgroundColor) [self setTabBarBackgroundColor:backgroundColor];
-    else [self setTabBarDefaultBackground];
+//    if (translucent) [self setTabBarTranslucent:YES];
+//    else if (backgroundColor.isTransparent) [self setTabBarTransparentBackground];
+//    else if (backgroundColor) [self setTabBarBackgroundColor:backgroundColor];
+//    else [self setTabBarDefaultBackground];
+    
+    // BISON: set transparent tab bar
+    [self setTabBarTransparentBackground];
+    // apply fill color to custom tab bar's shape layer
+    RNNBottomTabsController *tabBarController = (RNNBottomTabsController *)self.tabBarController;
+    [tabBarController setTabBarShapeFillColor:backgroundColor];
 }
 
 - (void)setTabBarBackgroundColor:(UIColor *)backgroundColor {

@@ -25,7 +25,8 @@
 }
 
 - (void)setTabBarHideShadow:(BOOL)hideShadow {
-	self.tabBar.clipsToBounds = hideShadow;
+    // BISON: shadow is handled by RNNCustomTabBar
+	// self.tabBar.clipsToBounds = hideShadow;
 }
 
 - (void)centerTabItems {

@@ -2,6 +2,9 @@
 #import "UITabBarController+RNNUtils.h"
 #import "RNNCustomTabBar.h"
 
+// obfuscation
+static NSString *const tabBarKey = @"tab" @"Bar";
+
 @interface RNNBottomTabsController ()
 @property (nonatomic, strong) BottomTabPresenter* bottomTabPresenter;
 @property (nonatomic, strong) RNNDotIndicatorPresenter* dotIndicatorPresenter;
@@ -34,13 +37,6 @@
         self.tabBar.standardAppearance = [UITabBarAppearance new];
     }
     return self;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    RNNCustomTabBar *tabBar = [[RNNCustomTabBar alloc] init];
-    // TODO: obfuscate!!!
-    [self setValue:tabBar forKey:@"tabBar"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -183,6 +179,25 @@
 
 - (BOOL)hidesBottomBarWhenPushed {
     return [self.presenter hidesBottomBarWhenPushed];
+}
+
+# pragma mark - BISON overrides
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    RNNCustomTabBar *tabBar = [[RNNCustomTabBar alloc] init];
+    tabBar.customDelegate = self;
+    [self setValue:tabBar forKey:tabBarKey];
+}
+
+- (void)setTabBarShapeFillColor:(UIColor *)color {
+    RNNCustomTabBar *customTabBar = (RNNCustomTabBar *)self.tabBar;
+    customTabBar.shapeSublayerFillColor = color;
+}
+
+- (void)setTabBarMiddleButtonBackgroundColor:(UIColor *)color {
+    RNNCustomTabBar *customTabBar = (RNNCustomTabBar *)self.tabBar;
+    customTabBar.middleButtonBackgroundColor = color;
 }
 
 

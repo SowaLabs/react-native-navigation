@@ -25,6 +25,10 @@
 
 - (void)restoreTabBarVisibility:(BOOL)visible;
 
+// BISON
+- (void)setTabBarShapeFillColor:(UIColor *)color;
+- (void)setTabBarMiddleButtonBackgroundColor:(UIColor *)color;
+
 @property (nonatomic, strong) NSArray* pendingChildViewControllers;
 
 @end
