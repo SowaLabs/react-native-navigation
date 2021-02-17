@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { EventSubscription } from '../interfaces/EventSubscription';
 import { NavigationComponentListener } from '../interfaces/NavigationComponentListener';
 import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, PreviewCompletedEvent, ModalDismissedEvent, ScreenPoppedEvent, ModalAttemptedToDismissEvent } from '../interfaces/ComponentEvents';

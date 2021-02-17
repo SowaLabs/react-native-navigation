@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { EmitterSubscription } from 'react-native';
 import { NativeEventsReceiver } from '../adapters/NativeEventsReceiver';
 import { CommandsObserver } from './CommandsObserver';
@@ -6,7 +5,7 @@ import { EventSubscription } from '../interfaces/EventSubscription';
 import { NavigationComponentListener } from '../interfaces/NavigationComponentListener';
 import { ComponentEventsObserver } from './ComponentEventsObserver';
 import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, PreviewCompletedEvent, ModalDismissedEvent, ScreenPoppedEvent, ModalAttemptedToDismissEvent } from '../interfaces/ComponentEvents';
-import { CommandCompletedEvent, BottomTabSelectedEvent, BottomTabLongPressedEvent, BottomTabPressedEvent } from '../interfaces/Events';
+import { CommandCompletedEvent, BottomTabSelectedEvent, BottomTabLongPressedEvent, BottomTabPressedEvent, BottomTabMiddleButtonPressedEvent } from '../interfaces/Events';
 export declare class EventsRegistry {
     private nativeEventsReceiver;
     private commandsObserver;
@@ -18,6 +17,7 @@ export declare class EventsRegistry {
     registerCommandCompletedListener(callback: (event: CommandCompletedEvent) => void): EmitterSubscription;
     registerBottomTabSelectedListener(callback: (event: BottomTabSelectedEvent) => void): EmitterSubscription;
     registerBottomTabPressedListener(callback: (event: BottomTabPressedEvent) => void): EmitterSubscription;
+    registerBottomTabMiddleButtonPressedListener(callback: (event: BottomTabMiddleButtonPressedEvent) => void): EmitterSubscription;
     registerBottomTabLongPressedListener(callback: (event: BottomTabLongPressedEvent) => void): EmitterSubscription;
     registerNavigationButtonPressedListener(callback: (event: NavigationButtonPressedEvent) => void): EmitterSubscription;
     registerModalDismissedListener(callback: (event: ModalDismissedEvent) => void): EmitterSubscription;

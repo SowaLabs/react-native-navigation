@@ -576,6 +576,18 @@ export interface OptionsBottomTabs {
      * #### (Android specific)
      */
     elevation?: AndroidDensityNumber;
+    /**
+     * Set a background color for the middle button
+     */
+    middleButtonColor?: Color;
+    /**
+     * Set the middle button icon
+     */
+    middleButtonIcon?: ImageRequireSource | ImageResource;
+    /**
+     * Set the middle button icon tint
+     */
+    middleButtonIconColor?: Color;
 }
 export interface DotIndicatorOptions {
     color?: Color;

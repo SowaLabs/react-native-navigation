@@ -14,3 +14,5 @@ export interface BottomTabLongPressedEvent {
 export interface BottomTabPressedEvent {
     tabIndex: number;
 }
+export interface BottomTabMiddleButtonPressedEvent {
+}

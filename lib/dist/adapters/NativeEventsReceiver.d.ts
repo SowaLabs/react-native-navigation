@@ -1,6 +1,6 @@
 import { EmitterSubscription } from 'react-native';
 import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, PreviewCompletedEvent, ModalDismissedEvent, ScreenPoppedEvent, ModalAttemptedToDismissEvent } from '../interfaces/ComponentEvents';
-import { CommandCompletedEvent, BottomTabSelectedEvent, BottomTabLongPressedEvent, BottomTabPressedEvent } from '../interfaces/Events';
+import { CommandCompletedEvent, BottomTabSelectedEvent, BottomTabLongPressedEvent, BottomTabPressedEvent, BottomTabMiddleButtonPressedEvent } from '../interfaces/Events';
 export declare class NativeEventsReceiver {
     private emitter;
     constructor();
@@ -9,6 +9,7 @@ export declare class NativeEventsReceiver {
     registerComponentDidDisappearListener(callback: (event: ComponentDidDisappearEvent) => void): EmitterSubscription;
     registerNavigationButtonPressedListener(callback: (event: NavigationButtonPressedEvent) => void): EmitterSubscription;
     registerBottomTabPressedListener(callback: (data: BottomTabPressedEvent) => void): EmitterSubscription;
+    registerBottomTabMiddleButtonPressedListener(callback: (data: BottomTabMiddleButtonPressedEvent) => void): EmitterSubscription;
     registerModalDismissedListener(callback: (event: ModalDismissedEvent) => void): EmitterSubscription;
     registerModalAttemptedToDismissListener(callback: (event: ModalAttemptedToDismissEvent) => void): EmitterSubscription;
     registerSearchBarUpdatedListener(callback: (event: SearchBarUpdatedEvent) => void): EmitterSubscription;
