@@ -28,6 +28,7 @@
 // BISON
 - (void)setTabBarShapeFillColor:(UIColor *)color;
 - (void)setTabBarMiddleButtonBackgroundColor:(UIColor *)color;
+- (void)setTabBarMiddleButtonImage:(UIImage *)image;
 
 @property (nonatomic, strong) NSArray* pendingChildViewControllers;
 

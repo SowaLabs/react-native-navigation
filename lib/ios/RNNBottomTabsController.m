@@ -181,7 +181,7 @@ static NSString *const tabBarKey = @"tab" @"Bar";
     return [self.presenter hidesBottomBarWhenPushed];
 }
 
-# pragma mark - BISON overrides
+# pragma mark - BISON
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -200,5 +200,9 @@ static NSString *const tabBarKey = @"tab" @"Bar";
     customTabBar.middleButtonBackgroundColor = color;
 }
 
+- (void)setTabBarMiddleButtonImage:(UIImage *)image {
+    RNNCustomTabBar *customTabBar = (RNNCustomTabBar *)self.tabBar;
+    customTabBar.middleButtonImage = image;
+}
 
 @end

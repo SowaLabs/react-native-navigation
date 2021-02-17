@@ -21,6 +21,11 @@
 	self.fontFamily = [TextParser parse:dict key:@"fontFamily"];
 	self.titleDisplayMode = [TextParser parse:dict key:@"titleDisplayMode"];
     self.tabsAttachMode = (BottomTabsAttachMode *)[EnumParser parse:dict key:@"tabsAttachMode" ofClass:BottomTabsAttachMode.class];
+    
+    // BISON
+    self.middleButtonColor = [ColorParser parse:dict key:@"middleButtonColor"];
+    self.middleButtonIcon = [ImageParser parse:dict key:@"middleButtonIcon"];
+    self.middleButtonIconColor = [ColorParser parse:dict key:@"middleButtonIconColor"];
 	
 	return self;
 }

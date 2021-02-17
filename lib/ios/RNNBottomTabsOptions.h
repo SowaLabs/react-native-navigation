@@ -21,6 +21,11 @@
 @property (nonatomic, strong) Text* titleDisplayMode;
 @property (nonatomic, strong) BottomTabsAttachMode* tabsAttachMode;
 
+// BISON
+@property (nonatomic, strong) Color* middleButtonColor;
+@property (nonatomic, strong) Image* middleButtonIcon;
+@property (nonatomic, strong) Color* middleButtonIconColor;
+
 - (BOOL)shouldDrawBehind;
 
 @end

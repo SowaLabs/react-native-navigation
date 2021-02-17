@@ -1,5 +1,6 @@
 #import "BottomTabsBasePresenter.h"
 #import "RNNBottomTabsController.h"
+#import "UIImage+tint.h"
 
 @implementation BottomTabsBasePresenter
 
@@ -24,6 +25,16 @@
     [self applyBackgroundColor:[withDefault.bottomTabs.backgroundColor getWithDefaultValue:nil] translucent:[withDefault.bottomTabs.translucent getWithDefaultValue:NO]];
     [bottomTabs setTabBarHideShadow:[withDefault.bottomTabs.hideShadow getWithDefaultValue:NO]];
     [bottomTabs setTabBarStyle:[RCTConvert UIBarStyle:[withDefault.bottomTabs.barStyle getWithDefaultValue:@"default"]]];
+    
+    // BISON
+    [bottomTabs setTabBarMiddleButtonBackgroundColor:[withDefault.bottomTabs.middleButtonColor getWithDefaultValue:UIColor.blackColor]];
+    
+    UIImage *middleButtonIcon = [withDefault.bottomTabs.middleButtonIcon getWithDefaultValue:nil];
+    UIColor *middleButtonIconColor = [withDefault.bottomTabs.middleButtonIconColor getWithDefaultValue:nil];
+    UIImage *middleButtonImage = middleButtonIconColor
+    ? [[middleButtonIcon withTintColor:middleButtonIconColor] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+    : middleButtonIcon;
+    [bottomTabs setTabBarMiddleButtonImage:middleButtonImage];
 }
 
 - (void)mergeOptions:(RNNNavigationOptions *)options resolvedOptions:(RNNNavigationOptions *)currentOptions {

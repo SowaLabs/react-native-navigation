@@ -11,5 +11,6 @@
 
 @property (nonatomic, strong) UIColor* shapeSublayerFillColor;
 @property (nonatomic, strong) UIColor* middleButtonBackgroundColor;
+@property (nonatomic, strong) UIImage* middleButtonImage;
 
 @end

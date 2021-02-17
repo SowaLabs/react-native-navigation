@@ -153,14 +153,19 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
 
 // MARK:- override public setters
 
+- (void)setShapeSublayerFillColor:(UIColor *)shapeSublayerFillColor {
+    _shapeSublayerFillColor = shapeSublayerFillColor;
+    self.shapeSublayer.fillColor = shapeSublayerFillColor.CGColor;
+}
+
 - (void)setMiddleButtonBackgroundColor:(UIColor *)middleButtonBackgroundColor {
     _middleButtonBackgroundColor = middleButtonBackgroundColor;
     self.middleButton.backgroundColor = middleButtonBackgroundColor;
 }
 
-- (void)setShapeSublayerFillColor:(UIColor *)shapeSublayerFillColor {
-    _shapeSublayerFillColor = shapeSublayerFillColor;
-    self.shapeSublayer.fillColor = shapeSublayerFillColor.CGColor;
+- (void)setMiddleButtonImage:(UIImage *)middleButtonImage {
+    _middleButtonImage = middleButtonImage;
+    [self.middleButton setImage:middleButtonImage forState:UIControlStateNormal];
 }
 
 // MARK:- middle button delegate
