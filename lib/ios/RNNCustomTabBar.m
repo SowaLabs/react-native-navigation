@@ -19,7 +19,8 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
 
 - (UIButton *)createMiddleButton {
     CGRect frame = CGRectMake(0, 0, middleButtonSize, middleButtonSize);
-    UIButton *middleButton = [[UIButton alloc] initWithFrame:frame];
+    UIButton *middleButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    middleButton.frame = frame;
     middleButton.layer.cornerRadius = middleButtonSize / 2;
     // confines the subview to the bounds of the view
     middleButton.clipsToBounds = YES;
