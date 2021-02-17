@@ -26,7 +26,7 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
     middleButton.clipsToBounds = YES;
     middleButton.backgroundColor = _middleButtonBackgroundColor;
     [middleButton addTarget:self
-                     action:@selector(middleButtonTapAction:)
+                     action:@selector(middleButtonPressed:)
            forControlEvents:UIControlEventTouchUpInside];
     
     return middleButton;
@@ -171,9 +171,8 @@ static NSString *const RNNCustomTabBarShapeSublayerName = @"customUITabBarShapeL
 
 // MARK:- middle button delegate
 
-// TODO: change to delegate
-- (void)middleButtonTapAction:(id)sender {
-    NSLog(@"HERE");
+- (void)middleButtonPressed:(id)sender {
+    [self.customDelegate tabBarMiddleButtonWasPressed];
 }
 
 /*

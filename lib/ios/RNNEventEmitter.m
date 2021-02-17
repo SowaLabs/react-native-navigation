@@ -22,6 +22,8 @@ static NSString* const SearchBarCancelPressed 	= @"RNN.SearchBarCancelPressed";
 static NSString* const PreviewCompleted         = @"RNN.PreviewCompleted";
 static NSString* const ScreenPopped             = @"RNN.ScreenPopped";
 static NSString* const BottomTabPressed         = @"RNN.BottomTabPressed";
+// BISON event
+static NSString* const BottomTabMiddleButtonPressed = @"RNN.BottomTabMiddleButtonPressed";
 
 -(NSArray<NSString *> *)supportedEvents {
 	return @[AppLaunched,
@@ -37,7 +39,8 @@ static NSString* const BottomTabPressed         = @"RNN.BottomTabPressed";
 			 SearchBarCancelPressed,
 			 PreviewCompleted,
        ScreenPopped,
-       ModalAttemptedToDismiss];
+       ModalAttemptedToDismiss,
+       BottomTabMiddleButtonPressed];
 }
 
 # pragma mark public
@@ -90,6 +93,10 @@ static NSString* const BottomTabPressed         = @"RNN.BottomTabPressed";
     [self send:BottomTabPressed body:@{
                                         @"tabIndex": tabIndex
                                         }];
+}
+
+-(void)sendBottomTabMiddleButtonPressed {
+    [self send:BottomTabMiddleButtonPressed body:@{}];
 }
 
 -(void)sendOnNavigationCommandCompletion:(NSString *)commandName commandId:(NSString *)commandId params:(NSDictionary*)params {

@@ -20,7 +20,8 @@ import {
   CommandCompletedEvent,
   BottomTabSelectedEvent,
   BottomTabLongPressedEvent,
-  BottomTabPressedEvent
+  BottomTabPressedEvent,
+  BottomTabMiddleButtonPressedEvent
 } from '../interfaces/Events';
 
 export class EventsRegistry {
@@ -70,6 +71,12 @@ export class EventsRegistry {
     callback: (event: BottomTabPressedEvent) => void
   ): EmitterSubscription {
     return this.nativeEventsReceiver.registerBottomTabPressedListener(callback);
+  }
+
+  public registerBottomTabMiddleButtonPressedListener(
+    callback: (event: BottomTabMiddleButtonPressedEvent) => void
+  ): EmitterSubscription {
+    return this.nativeEventsReceiver.registerBottomTabMiddleButtonPressedListener(callback);
   }
 
   public registerBottomTabLongPressedListener(

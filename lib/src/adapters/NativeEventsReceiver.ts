@@ -19,7 +19,8 @@ import {
   CommandCompletedEvent,
   BottomTabSelectedEvent,
   BottomTabLongPressedEvent,
-  BottomTabPressedEvent
+  BottomTabPressedEvent,
+  BottomTabMiddleButtonPressedEvent
 } from '../interfaces/Events';
 
 export class NativeEventsReceiver {
@@ -68,6 +69,12 @@ export class NativeEventsReceiver {
     callback: (data: BottomTabPressedEvent) => void
   ): EmitterSubscription {
     return this.emitter.addListener('RNN.BottomTabPressed', callback);
+  }
+
+  public registerBottomTabMiddleButtonPressedListener(
+    callback: (data: BottomTabMiddleButtonPressedEvent) => void
+  ): EmitterSubscription {
+    return this.emitter.addListener('RNN.BottomTabMiddleButtonPressed', callback);
   }
 
   public registerModalDismissedListener(

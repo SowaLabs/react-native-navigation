@@ -32,5 +32,7 @@
 
 - (void)sendBottomTabPressed:(NSNumber *)tabIndex;
 
+- (void)sendBottomTabMiddleButtonPressed;
+
 
 @end

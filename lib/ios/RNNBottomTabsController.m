@@ -1,6 +1,5 @@
 #import "RNNBottomTabsController.h"
 #import "UITabBarController+RNNUtils.h"
-#import "RNNCustomTabBar.h"
 
 // obfuscation
 static NSString *const tabBarKey = @"tab" @"Bar";
@@ -188,6 +187,10 @@ static NSString *const tabBarKey = @"tab" @"Bar";
     RNNCustomTabBar *tabBar = [[RNNCustomTabBar alloc] init];
     tabBar.customDelegate = self;
     [self setValue:tabBar forKey:tabBarKey];
+}
+
+- (void)tabBarMiddleButtonWasPressed {
+    [self.eventEmitter sendBottomTabMiddleButtonPressed];
 }
 
 - (void)setTabBarShapeFillColor:(UIColor *)color {

@@ -5,8 +5,9 @@
 #import "BottomTabsBaseAttacher.h"
 #import "BottomTabPresenter.h"
 #import "RNNDotIndicatorPresenter.h"
+#import "RNNCustomTabBar.h"
 
-@interface RNNBottomTabsController : UITabBarController <RNNLayoutProtocol, UITabBarControllerDelegate>
+@interface RNNBottomTabsController : UITabBarController <RNNLayoutProtocol, UITabBarControllerDelegate, RNNCustomTabBarDelegate>
 
 - (instancetype)initWithLayoutInfo:(RNNLayoutInfo *)layoutInfo
                            creator:(id<RNNComponentViewCreator>)creator
