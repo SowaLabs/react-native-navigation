@@ -24,6 +24,8 @@
 @property (nonatomic, strong) RNNBool* searchBar;
 @property (nonatomic, strong) RNNBool* searchBarHiddenWhenScrolling;
 @property (nonatomic, strong) RNNBool* hideNavBarOnFocusSearchBar;
+@property (nonatomic, strong) Text* searchBarStyle;
+@property (nonatomic, strong) Color* searchBarTintColor;
 @property (nonatomic, strong) Text* testID;
 @property (nonatomic, strong) Text* barStyle;
 @property (nonatomic, strong) Text* searchBarPlaceholder;

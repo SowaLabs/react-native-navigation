@@ -70,7 +70,9 @@
 		if (withDefault.topBar.hideNavBarOnFocusSearchBar.hasValue) {
 			hideNavBarOnFocusSearchBar = withDefault.topBar.hideNavBarOnFocusSearchBar.get;
 		}
-		[viewController setSearchBarWithPlaceholder:[withDefault.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
+		[viewController setSearchBarWithPlaceholder:[withDefault.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar
+                                     searchBarStyle:[RCTConvert UIBarStyle:[withDefault.topBar.searchBarStyle getWithDefaultValue:@"default"]]
+                                          tintColor:[withDefault.topBar.searchBarTintColor getWithDefaultValue:nil]];
 	}
 	
 	[_topBarTitlePresenter applyOptions:withDefault.topBar];
@@ -104,7 +106,9 @@
 		if (options.topBar.hideNavBarOnFocusSearchBar.hasValue) {
 			hideNavBarOnFocusSearchBar = options.topBar.hideNavBarOnFocusSearchBar.get;
 		}
-		[viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar];
+		[viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar
+                                     searchBarStyle:[RCTConvert UIBarStyle:[options.topBar.searchBarStyle getWithDefaultValue:@"default"]]
+                                          tintColor:[options.topBar.searchBarTintColor getWithDefaultValue:nil]];
 	}
 
 	if (options.topBar.drawBehind.hasValue) {

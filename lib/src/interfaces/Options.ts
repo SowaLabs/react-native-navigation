@@ -479,6 +479,16 @@ export interface OptionsTopBar {
    */
   searchBarPlaceholder?: string;
   /**
+   * UIBarStyle of UISearchBar
+   * #### (iOS 11+ specific)
+   */
+  searchBarStyle?: 'default' | 'black';
+  /**
+   * Tint color of UISearchBar
+   * #### (iOS 11+ specific)
+   */
+  searchBarTintColor?: Color;
+  /**
    * Controls Hiding NavBar on focus UISearchBar
    * #### (iOS 11+ specific)
    */

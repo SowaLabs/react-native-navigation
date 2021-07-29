@@ -24,7 +24,9 @@ const NSInteger BLUR_STATUS_TAG = 78264801;
 }
 
 - (void)setSearchBarWithPlaceholder:(NSString *)placeholder
-		 hideNavBarOnFocusSearchBar:(BOOL)hideNavBarOnFocusSearchBar {
+		 hideNavBarOnFocusSearchBar:(BOOL)hideNavBarOnFocusSearchBar
+                     searchBarStyle:(UIBarStyle)searchBarStyle
+                          tintColor:(nullable UIColor *)tintColor {
 	if (@available(iOS 11.0, *)) {
 		if (!self.navigationItem.searchController) {
 			UISearchController *search = [[UISearchController alloc]initWithSearchResultsController:nil];
@@ -37,8 +39,11 @@ const NSInteger BLUR_STATUS_TAG = 78264801;
 				search.searchBar.placeholder = placeholder;
 			}
 			search.hidesNavigationBarDuringPresentation = hideNavBarOnFocusSearchBar;
+            search.searchBar.tintColor = tintColor;
+            // change UISearchBar's text color (as changing searchField.textColor does not work)
+            search.searchBar.barStyle = searchBarStyle;
 			self.navigationItem.searchController = search;
-			[self.navigationItem setHidesSearchBarWhenScrolling:NO];
+			[self.navigationItem setHidesSearchBarWhenScrolling:YES];
 
 			// Fixes #3450, otherwise, UIKit will infer the presentation context to be the root most view controller
 			self.definesPresentationContext = YES;
