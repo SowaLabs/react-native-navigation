@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator
 import android.animation.TypeEvaluator
 import android.graphics.Rect
 import android.view.View
+import com.facebook.react.views.image.ImageResizeMode
+import com.facebook.drawee.drawable.ScalingUtils
 import com.facebook.drawee.drawable.ScalingUtils.InterpolatingScaleType
 import com.facebook.react.views.image.ReactImageView
 import com.reactnativenavigation.parse.SharedElementTransitionOptions
@@ -34,7 +36,16 @@ class MatrixAnimator(from: View, to: View) : PropertyAnimatorCreator<ReactImageV
         }
     }
 
-    private fun getScaleType(child: View) = (child as ReactImageView).hierarchy.actualImageScaleType
+    private fun getScaleType(child: View): ScalingUtils.ScaleType {
+        return getScaleType(
+            child as ReactImageView, child.hierarchy.actualImageScaleType ?: ImageResizeMode.defaultValue()
+        )
+    }
+
+    private fun getScaleType(child: ReactImageView, scaleType: ScalingUtils.ScaleType): ScalingUtils.ScaleType {
+        if (scaleType is InterpolatingScaleType) return getScaleType(child, scaleType.scaleTypeTo)
+        return scaleType
+    }
 
     private fun calculateBounds(view: View): Rect = Rect(0, 0, view.width, view.height)
 }
