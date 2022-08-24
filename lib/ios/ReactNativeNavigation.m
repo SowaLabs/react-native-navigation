@@ -77,8 +77,11 @@
 }
 
 - (UIWindow *)initializeKeyWindow {
-	UIWindow* keyWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	UIApplication.sharedApplication.delegate.window = keyWindow;
+	UIWindow *keyWindow = UIApplication.sharedApplication.delegate.window;
+	if (!keyWindow) {
+			keyWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+			UIApplication.sharedApplication.delegate.window = keyWindow;
+	}
 	return keyWindow;
 }
 
