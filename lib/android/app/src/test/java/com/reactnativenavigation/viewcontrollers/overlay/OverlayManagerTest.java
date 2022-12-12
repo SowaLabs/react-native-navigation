@@ -6,16 +6,16 @@ import android.widget.FrameLayout;
 
 import com.reactnativenavigation.BaseTest;
 import com.reactnativenavigation.mocks.SimpleViewController;
-import com.reactnativenavigation.parse.Options;
-import com.reactnativenavigation.presentation.OverlayManager;
-import com.reactnativenavigation.utils.CommandListener;
-import com.reactnativenavigation.utils.CommandListenerAdapter;
-import com.reactnativenavigation.viewcontrollers.ChildControllersRegistry;
+import com.reactnativenavigation.options.Options;
+import com.reactnativenavigation.react.CommandListener;
+import com.reactnativenavigation.react.CommandListenerAdapter;
+import com.reactnativenavigation.viewcontrollers.child.ChildControllersRegistry;
 
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -32,6 +32,7 @@ public class OverlayManagerTest extends BaseTest {
 
     @Override
     public void beforeEach() {
+        super.beforeEach();
         Activity activity = newActivity();
         contentLayout = new FrameLayout(activity);
         contentLayout.layout(0, 0, 1000, 1000);
@@ -56,7 +57,9 @@ public class OverlayManagerTest extends BaseTest {
     public void show() {
         CommandListenerAdapter listener = spy(new CommandListenerAdapter());
         uut.show(overlayContainer, overlay1, listener);
-        verify(listener, times(1)).onSuccess(OVERLAY_ID_1);
+        idleMainLooper();
+        verify(listener).onSuccess(OVERLAY_ID_1);
+        verify(overlay1).onViewDidAppear();
         assertThat(overlay1.getView().getParent()).isEqualTo(overlayContainer);
         assertMatchParent(overlay1.getView());
     }
@@ -83,10 +86,12 @@ public class OverlayManagerTest extends BaseTest {
     public void dismiss_onViewReturnedToFront() {
         uut.show(overlayContainer, overlay1, new CommandListenerAdapter());
         uut.show(overlayContainer, overlay2, new CommandListenerAdapter());
-        verify(overlay1, times(0)).onViewBroughtToFront();
+        idleMainLooper();
+        verify(overlay1, never()).onViewBroughtToFront();
 
         uut.dismiss(overlayContainer, OVERLAY_ID_2, new CommandListenerAdapter());
-        verify(overlay1, times(1)).onViewBroughtToFront();
+        idleMainLooper();
+        verify(overlay1).onViewBroughtToFront();
     }
 
     @Test

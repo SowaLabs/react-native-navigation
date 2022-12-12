@@ -1,3 +1,7 @@
+const remarkCodeImport = require('remark-code-import');
+
+const versions = require('./versions.json');
+
 module.exports = {
   title: 'React Native Navigation',
   tagline: '',
@@ -18,9 +22,28 @@ module.exports = {
         alt: 'React Native Navigation Logo',
         src: 'img/logo.png',
       },
-      links: [
-        {to: 'docs/before-you-start', label: 'Docs', position: 'left', activeBasePath: 'docs'},
-        {to: 'api/component', label: 'API', position: 'left', activeBasePath: 'api'},
+      items: [
+        {
+          type: 'docsVersionDropdown',
+          position: 'left',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'docs/before-you-start',
+          label: 'Docs',
+        },
+        {
+          type: 'doc',
+          position: 'left',
+          docId: 'api/component',
+          label: 'API',
+        },
+        {
+          to: 'showcase',
+          label: 'Showcase',
+          position: 'left',
+        },
         {
           href: 'https://github.com/wix/react-native-navigation',
           label: 'GitHub',
@@ -30,7 +53,8 @@ module.exports = {
     },
     algolia: {
       apiKey: '6d8c985d9db80241d117497afe2a0e8c',
-      indexName: 'wix_react-native-navigation'
+      indexName: 'wix_react-native-navigation',
+      contextualSearch: true
     },
     sidebarCollapsible: false,
     footer: {
@@ -50,7 +74,7 @@ module.exports = {
             {
               label: 'Contributing',
               to: 'docs/meta-contributing',
-            }
+            },
           ],
         },
         {
@@ -67,7 +91,7 @@ module.exports = {
             {
               label: 'Submit on issue on GitHub',
               href: 'https://github.com/wix/react-native-navigation/issues/new/choose',
-            }
+            },
           ],
         },
         {
@@ -83,39 +107,36 @@ module.exports = {
             },
           ],
         },
-      ]
+      ],
     },
   },
+  plugins: [
+    [
+      '@docusaurus/plugin-ideal-image',
+      {
+        quality: 70,
+        max: 1030, // max resized image's size.
+        min: 640, // min resized image's size. if original is lower, use that size.
+        steps: 2, // the max number of images generated between min and max (inclusive)
+      },
+    ],
+  ],
   presets: [
     [
       '@docusaurus/preset-classic',
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          routeBasePath: 'docs',
+          routeBasePath: '/',
           path: 'docs',
-          editUrl:
-            'https://github.com/wix/react-native-navigation/edit/master/website'
+          editUrl: 'https://github.com/wix/react-native-navigation/edit/master/website',
+          remarkPlugins: [remarkCodeImport],
+          docLayoutComponent: '@site/src/components/CustomLayout'
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
       },
     ],
-    [
-      '@docusaurus/preset-classic',
-      {
-        docs: {
-          routeBasePath: 'api',
-          path: 'api',
-          sidebarPath: require.resolve('./sidebarsApi.js'),
-          editUrl:
-            'https://github.com/wix/react-native-navigation/edit/master/website'
-        },
-        theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
-      },
-    ]
   ],
 };

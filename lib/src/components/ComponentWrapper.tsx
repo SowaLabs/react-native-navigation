@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { ComponentProvider } from 'react-native';
-import merge from 'lodash/merge';
 import { polyfill } from 'react-lifecycles-compat';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
 import { Store } from './Store';
 import { ComponentEventsObserver } from '../events/ComponentEventsObserver';
 
-interface HocState { componentId: string; allProps: {}; }
-interface HocProps { componentId: string; }
+interface HocState {
+  componentId: string;
+  allProps: {};
+}
+interface HocProps {
+  componentId: string;
+}
 
 export interface IWrappedComponent extends React.Component {
-  setProps(newProps: Record<string, any>): void;
+  setProps(newProps: Record<string, any>, callback?: () => void): void;
+  isMounted: boolean;
 }
 
 export class ComponentWrapper {
@@ -28,8 +33,17 @@ export class ComponentWrapper {
     class WrappedComponent extends React.Component<HocProps, HocState> {
       static getDerivedStateFromProps(nextProps: any, prevState: HocState) {
         return {
-          allProps: merge({}, nextProps, store.getPropsForId(prevState.componentId))
+          allProps: {
+            ...nextProps,
+            ...store.getPropsForId(prevState.componentId),
+          },
         };
+      }
+
+      private _isMounted = false;
+
+      get isMounted() {
+        return this._isMounted;
       }
 
       constructor(props: HocProps) {
@@ -37,13 +51,25 @@ export class ComponentWrapper {
         this._assertComponentId();
         this.state = {
           componentId: props.componentId,
-          allProps: {}
+          allProps: {},
         };
         store.setComponentInstance(props.componentId, this);
       }
 
-      public setProps(newProps: any) {
-        this.setState({ allProps: newProps });
+      public setProps(newProps: any, callback?: () => void) {
+        this.setState(
+          (prevState) => ({
+            allProps: {
+              ...prevState.allProps,
+              ...newProps,
+            },
+          }),
+          callback
+        );
+      }
+
+      componentDidMount() {
+        this._isMounted = true;
       }
 
       componentWillUnmount() {
@@ -53,10 +79,7 @@ export class ComponentWrapper {
 
       render() {
         return (
-          <GeneratedComponentClass
-            {...this.state.allProps}
-            componentId={this.state.componentId}
-          />
+          <GeneratedComponentClass {...this.state.allProps} componentId={this.state.componentId} />
         );
       }
 
@@ -68,11 +91,22 @@ export class ComponentWrapper {
     }
 
     polyfill(WrappedComponent);
-    hoistNonReactStatics(WrappedComponent, concreteComponentProvider === OriginalComponentGenerator ? GeneratedComponentClass : concreteComponentProvider());
-    return ReduxProvider ? this.wrapWithRedux(WrappedComponent, ReduxProvider, reduxStore) : WrappedComponent;
+    hoistNonReactStatics(
+      WrappedComponent,
+      concreteComponentProvider === OriginalComponentGenerator
+        ? GeneratedComponentClass
+        : concreteComponentProvider()
+    );
+    return ReduxProvider
+      ? this.wrapWithRedux(WrappedComponent, ReduxProvider, reduxStore)
+      : WrappedComponent;
   }
 
-  wrapWithRedux(WrappedComponent: React.ComponentClass<any>, ReduxProvider: any, reduxStore: any): React.ComponentClass<any> {
+  wrapWithRedux(
+    WrappedComponent: React.ComponentClass<any>,
+    ReduxProvider: any,
+    reduxStore: any
+  ): React.ComponentClass<any> {
     class ReduxWrapper extends React.Component<any, any> {
       render() {
         return (

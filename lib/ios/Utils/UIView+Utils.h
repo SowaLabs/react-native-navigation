@@ -3,6 +3,7 @@
 
 typedef NS_ENUM(NSInteger, ViewType) {
     ViewTypeImage,
+    ViewTypeUIImage,
     ViewTypeText,
     ViewTypeOther
 };
@@ -13,6 +14,8 @@ typedef NS_ENUM(NSInteger, ViewType) {
 
 - (ViewType)viewType;
 
-- (void)layout:(CGFloat)p;
+- (void)stopMomentumScrollViews;
+
+- (void)setCornerRadius:(CGFloat)cornerRadius;
 
 @end

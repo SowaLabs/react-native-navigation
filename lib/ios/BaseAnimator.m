@@ -1,7 +1,7 @@
 #import "BaseAnimator.h"
 
 @implementation BaseAnimator {
-    NSMutableArray* _mutableAnimations;
+    NSMutableArray *_mutableAnimations;
 }
 
 - (void)setAnimations:(NSArray<id<DisplayLinkAnimation>> *)animations {
@@ -11,18 +11,23 @@
 
 - (void)updateAnimations:(NSTimeInterval)elapsed {
     CATransform3D transform = CATransform3DIdentity;
+    NSMutableIndexSet *discardedAnimations = [NSMutableIndexSet indexSet];
+
     for (int i = 0; i < _mutableAnimations.count; i++) {
         id<DisplayLinkAnimation> animation = _mutableAnimations[i];
         if (elapsed < animation.duration + animation.startDelay && elapsed > animation.startDelay) {
-            CGFloat p = (elapsed-animation.startDelay)/(animation.duration-animation.startDelay);
+            CGFloat p =
+                (elapsed - animation.startDelay) / (animation.duration - animation.startDelay);
             transform = CATransform3DConcat(transform, [animation animateWithProgress:p]);
         } else if (elapsed >= animation.duration + animation.startDelay) {
             transform = CATransform3DConcat(transform, [animation animateWithProgress:1]);
             [animation end];
-            [_mutableAnimations removeObject:animation];
+            [discardedAnimations addIndex:i];
         }
     }
-    
+
+    [_mutableAnimations removeObjectsAtIndexes:discardedAnimations];
+
     self.view.layer.transform = transform;
 }
 
@@ -33,16 +38,20 @@
             maxDuration = animation.duration;
         }
     }
-    
+
     return maxDuration;
 }
 
 - (void)end {
-    for (id<DisplayLinkAnimatorDelegate> animation in _animations) {
+    CATransform3D transform = CATransform3DIdentity;
+    for (id<DisplayLinkAnimation> animation in _mutableAnimations) {
         if ([animation respondsToSelector:@selector(end)]) {
+            transform = CATransform3DConcat(transform, [animation animateWithProgress:1]);
             [animation end];
         }
     }
+
+    self.view.layer.transform = transform;
 }
 
 @end

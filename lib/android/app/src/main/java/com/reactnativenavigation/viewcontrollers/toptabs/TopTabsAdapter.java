@@ -1,20 +1,21 @@
 package com.reactnativenavigation.viewcontrollers.toptabs;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.reactnativenavigation.parse.Options;
-import com.reactnativenavigation.viewcontrollers.ViewController;
+import com.reactnativenavigation.options.Options;
+import com.reactnativenavigation.viewcontrollers.viewcontroller.ViewController;
 
 import java.util.List;
 
 public class TopTabsAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
-    private List<ViewController> tabs;
+    private List<ViewController<?>> tabs;
     private int currentPage = 0;
 
-    public TopTabsAdapter(List<ViewController> tabs) {
+    public TopTabsAdapter(List<ViewController<?>> tabs) {
         this.tabs = tabs;
     }
 
@@ -29,12 +30,12 @@ public class TopTabsAdapter extends PagerAdapter implements ViewPager.OnPageChan
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
     @Override
-    public Object instantiateItem(ViewGroup component, int position) {
+    public Object instantiateItem(@NonNull ViewGroup component, int position) {
         return tabs.get(position).getView();
     }
 
@@ -46,7 +47,7 @@ public class TopTabsAdapter extends PagerAdapter implements ViewPager.OnPageChan
     @Override
     public void onPageSelected(int position) {
         tabs.get(currentPage).onViewDisappear();
-        tabs.get(position).onViewAppeared();
+        tabs.get(position).onViewWillAppear();
         currentPage = position;
     }
 

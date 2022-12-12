@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 
 import com.reactnativenavigation.views.BehaviourAdapter;
 import com.reactnativenavigation.views.BehaviourDelegate;
-import com.reactnativenavigation.views.BottomTabs;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -17,6 +16,6 @@ public class BottomTabsBehaviour extends BehaviourDelegate {
 
     @Override
     public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, @NonNull ViewGroup child, @NonNull View dependency) {
-        return dependency instanceof BottomTabs;
+        return dependency instanceof BottomTabsContainer;
     }
 }

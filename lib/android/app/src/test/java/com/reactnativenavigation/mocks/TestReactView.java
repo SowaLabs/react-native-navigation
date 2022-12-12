@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 import com.facebook.react.ReactInstanceManager;
-import com.reactnativenavigation.interfaces.ScrollEventListener;
+import com.reactnativenavigation.viewcontrollers.viewcontroller.ScrollEventListener;
 import com.reactnativenavigation.react.ReactView;
 import com.reactnativenavigation.react.events.ComponentType;
-import com.reactnativenavigation.viewcontrollers.IReactView;
+import com.reactnativenavigation.viewcontrollers.viewcontroller.IReactView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +21,11 @@ public class TestReactView extends ReactView implements IReactView {
 
     @Override
     public void startReactApplication(ReactInstanceManager reactInstanceManager, String moduleName, @Nullable Bundle initialProperties, @Nullable String initialUITemplate) {
+
+    }
+
+    @Override
+    public void sendComponentWillStart(ComponentType type) {
 
     }
 

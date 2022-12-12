@@ -5,7 +5,7 @@
 
 - (void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers {
     [super setViewControllers:viewControllers];
-    UIViewController<UISplitViewControllerDelegate>* masterViewController = viewControllers[0];
+    UIViewController<UISplitViewControllerDelegate> *masterViewController = viewControllers[0];
     self.delegate = masterViewController;
 }
 
@@ -13,11 +13,7 @@
     return self.viewControllers[0];
 }
 
-# pragma mark - UIViewController overrides
-
-- (void)willMoveToParentViewController:(UIViewController *)parent {
-    [self.presenter willMoveToParentViewController:parent];
-}
+#pragma mark - UIViewController overrides
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return [self.presenter getStatusBarStyle];

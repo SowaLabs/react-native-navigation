@@ -1,10 +1,11 @@
-const Utils = require('./Utils');
-const TestIDs = require('../playground/src/testIDs');
+import Utils from './Utils';
+import TestIDs from '../playground/src/testIDs';
+
 const { elementByLabel, elementById } = Utils;
 
-describe('SideMenu', () => {
+describe.e2e('SideMenu', () => {
   beforeEach(async () => {
-    await device.relaunchApp();
+    await device.launchApp({ newInstance: true });
     await elementById(TestIDs.SIDE_MENU_BTN).tap();
   });
 
@@ -41,5 +42,36 @@ describe('SideMenu', () => {
     await elementById(TestIDs.OPEN_LEFT_SIDE_MENU_BTN).tap();
     await device.setOrientation('landscape');
     await expect(elementById(TestIDs.LEFT_SIDE_MENU_PUSH_BTN)).toBeVisible();
+  });
+
+  it(':ios: rotation should update drawer height', async () => {
+    await elementById(TestIDs.OPEN_LEFT_SIDE_MENU_BTN).tap();
+    await expect(elementByLabel('left drawer height: 838')).toBeVisible();
+    await device.setOrientation('landscape');
+    await expect(elementByLabel('left drawer height: 414')).toBeVisible();
+    await device.setOrientation('portrait');
+    await expect(elementByLabel('left drawer height: 838')).toBeVisible();
+  });
+
+  it('should set left drawer width', async () => {
+    await elementById(TestIDs.OPEN_LEFT_SIDE_MENU_BTN).tap();
+    await expect(elementByLabel('left drawer width: 250')).toBeVisible();
+  });
+
+  it('should change left drawer width', async () => {
+    await elementById(TestIDs.CHANGE_LEFT_SIDE_MENU_WIDTH_BTN).tap();
+    await elementById(TestIDs.OPEN_LEFT_SIDE_MENU_BTN).tap();
+    await expect(elementByLabel('left drawer width: 50')).toBeVisible();
+  });
+
+  it('should set right drawer width', async () => {
+    await elementById(TestIDs.OPEN_RIGHT_SIDE_MENU_BTN).tap();
+    await expect(elementByLabel('right drawer width: 250')).toBeVisible();
+  });
+
+  it('should change right drawer width', async () => {
+    await elementById(TestIDs.CHANGE_RIGHT_SIDE_MENU_WIDTH_BTN).tap();
+    await elementById(TestIDs.OPEN_RIGHT_SIDE_MENU_BTN).tap();
+    await expect(elementByLabel('right drawer width: 50')).toBeVisible();
   });
 });

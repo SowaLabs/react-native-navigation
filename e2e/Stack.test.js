@@ -1,12 +1,22 @@
-const Utils = require('./Utils');
-const TestIDs = require('../playground/src/testIDs');
+import Utils from './Utils';
+import TestIDs from '../playground/src/testIDs';
+import Android from './AndroidUtils';
+
 const { elementByLabel, elementById, sleep } = Utils;
-const Android = require('./AndroidUtils');
 
 describe('Stack', () => {
   beforeEach(async () => {
-    await device.relaunchApp();
+    await device.launchApp({ newInstance: true });
     await elementById(TestIDs.STACK_BTN).tap();
+  });
+
+  it.e2e('SetStackRoot on a non created tab should work', async () => {
+    await elementById(TestIDs.SET_ROOT_NAVIGATION_TAB).tap();
+    await elementById(TestIDs.DISMISS_MODAL_TOPBAR_BTN).tap();
+    await elementById(TestIDs.NAVIGATION_TAB).tap();
+    await expect(elementById(TestIDs.PUSHED_SCREEN_HEADER)).toBeVisible();
+    await elementById(TestIDs.BACK_BUTTON).tap();
+    await expect(elementById(TestIDs.NAVIGATION_SCREEN)).toBeVisible();
   });
 
   it('push and pop screen', async () => {
@@ -21,6 +31,21 @@ describe('Stack', () => {
     await elementById(TestIDs.PUSH_NO_ANIM_BTN).tap();
     await expect(elementByLabel('Stack Position: 2')).toBeVisible();
     await elementById(TestIDs.POP_BTN).tap();
+    await expect(elementByLabel('Stack Position: 1')).toBeVisible();
+  });
+
+  it('pop using stack id', async () => {
+    await elementById(TestIDs.PUSH_BTN).tap();
+    await expect(elementById(TestIDs.PUSHED_SCREEN_HEADER)).toBeVisible();
+    await elementById(TestIDs.POP_USING_STACK_ID_BTN).tap();
+    await expect(elementById(TestIDs.STACK_SCREEN_HEADER)).toBeVisible();
+  });
+
+  it('pop using previous screen id', async () => {
+    await elementById(TestIDs.PUSH_BTN).tap();
+    await elementById(TestIDs.PUSH_BTN).tap();
+    await expect(elementByLabel('Stack Position: 2')).toBeVisible();
+    await elementById(TestIDs.POP_USING_PREVIOUS_SCREEN_ID_BTN).tap();
     await expect(elementByLabel('Stack Position: 1')).toBeVisible();
   });
 
@@ -52,20 +77,26 @@ describe('Stack', () => {
     await expect(elementByLabel('back button clicked')).toBeVisible();
   });
 
-  it('screen lifecycle', async () => {
+  it('push title with subtitle', async () => {
+    await elementById(TestIDs.PUSH_TITLE_WITH_SUBTITLE).tap();
+    await expect(elementByLabel('Title')).toBeVisible();
+    await expect(elementByLabel('Subtitle')).toBeVisible();
+  });
+
+  it.e2e('screen lifecycle', async () => {
     await elementById(TestIDs.PUSH_LIFECYCLE_BTN).tap();
     await expect(elementByLabel('didAppear')).toBeVisible();
     await elementById(TestIDs.PUSH_TO_TEST_DID_DISAPPEAR_BTN).tap();
     await expect(elementByLabel('didDisappear')).toBeVisible();
   });
 
-  it('Screen popped event', async () => {
+  it.e2e('Screen popped event', async () => {
     await elementById(TestIDs.PUSH_LIFECYCLE_BTN).tap();
     await elementById(TestIDs.SCREEN_POPPED_BTN).tap();
     await expect(elementByLabel('Screen popped event')).toBeVisible();
   });
 
-  it('unmount is called on pop', async () => {
+  it.e2e('unmount is called on pop', async () => {
     await elementById(TestIDs.PUSH_LIFECYCLE_BTN).tap();
     await elementById(TestIDs.POP_BTN).tap();
     await expect(elementByLabel('componentWillUnmount')).toBeVisible();
@@ -73,15 +104,15 @@ describe('Stack', () => {
     await expect(elementByLabel('didDisappear')).toBeVisible();
   });
 
-  it(':android: override hardware back button', async () => {
+  it.e2e(':android: override hardware back button', async () => {
     await elementById(TestIDs.PUSH_BTN).tap();
     await elementById(TestIDs.ADD_BACK_HANDLER).tap();
-    Android.pressBack();
+    await Android.pressBack();
     await sleep(100);
     await expect(elementById(TestIDs.PUSHED_SCREEN_HEADER)).toBeVisible();
 
     await elementById(TestIDs.REMOVE_BACK_HANDLER).tap();
-    Android.pressBack();
+    await Android.pressBack();
     await sleep(100);
     await expect(elementById(TestIDs.STACK_SCREEN_HEADER)).toBeVisible();
   });
@@ -91,7 +122,7 @@ describe('Stack', () => {
     await elementById(TestIDs.SET_STACK_ROOT_WITH_ID_BTN).tap();
   });
 
-  it(':ios: set stack root component should be first in stack', async () => {
+  it.e2e(':ios: set stack root component should be first in stack', async () => {
     await elementById(TestIDs.PUSH_BTN).tap();
     await expect(elementByLabel('Stack Position: 1')).toBeVisible();
     await elementById(TestIDs.SET_STACK_ROOT_BUTTON).tap();
@@ -100,12 +131,25 @@ describe('Stack', () => {
     await expect(elementByLabel('Stack Position: 2')).toBeVisible();
   });
 
-  xit(':ios: set searchBar and handle onSearchUpdated event', async () => { // Broken on iOS 13
+  xit(':ios: set searchBar and handle onSearchUpdated event', async () => {
+    // Broken on iOS 13
     await elementById(TestIDs.SEARCH_BTN).tap();
     await expect(elementByLabel('Start Typing')).toBeVisible();
     await elementByLabel('Start Typing').tap();
     const query = '124';
     await elementByLabel('Start Typing').typeText(query);
     await expect(elementById(TestIDs.SEARCH_RESULT_ITEM)).toHaveText(`Item ${query}`);
+  });
+
+  it.e2e('push promise is resolved with pushed ViewController id', async () => {
+    await elementById(TestIDs.STACK_COMMANDS_BTN).tap();
+    await elementById(TestIDs.PUSH_BTN).tap();
+    await expect(elementByLabel('push promise resolved with: ChildId')).toBeVisible();
+    await expect(elementByLabel('pop promise resolved with: ChildId')).toBeVisible();
+  });
+
+  it('pop from root screen should do nothing', async () => {
+    await elementById(TestIDs.POP_BTN).tap();
+    await expect(elementById(TestIDs.STACK_SCREEN_HEADER)).toBeVisible();
   });
 });

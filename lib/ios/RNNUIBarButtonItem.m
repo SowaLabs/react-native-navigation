@@ -1,66 +1,202 @@
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import "RNNUIBarButtonItem.h"
 #import "RCTConvert+UIBarButtonSystemItem.h"
+#import "RNNFontAttributesCreator.h"
+#import "UIImage+utils.h"
 
 @interface RNNUIBarButtonItem ()
 
-@property (nonatomic, strong) NSLayoutConstraint *widthConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *heightConstraint;
+@property(nonatomic, strong) NSLayoutConstraint *widthConstraint;
+@property(nonatomic, strong) NSLayoutConstraint *heightConstraint;
+@property(nonatomic, strong) RNNButtonPressCallback onPress;
 
 @end
 
-@implementation RNNUIBarButtonItem
-
--(instancetype)init:(NSString*)buttonId withIcon:(UIImage*)iconImage {
-	UIButton* button = [[UIButton alloc] init];
-	[button addTarget:self action:@selector(onButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-	[button setImage:iconImage forState:UIControlStateNormal];
-	[button setFrame:CGRectMake(0, 0, iconImage.size.width, iconImage.size.height)];
-	self = [super initWithCustomView:button];
-	self.buttonId = buttonId;
-	return self;
+@implementation RNNUIBarButtonItem {
+    RNNIconCreator* _iconCreator;
+    RNNButtonOptions* _buttonOptions;
 }
 
--(instancetype)init:(NSString*)buttonId withTitle:(NSString*)title {
-	self = [super initWithTitle:title style:UIBarButtonItemStylePlain target:nil action:nil];
-	self.buttonId = buttonId;
-	return self;
+- (instancetype)init {
+    self = [super init];
+    self.target = self;
+    self.action = @selector(onButtonPressed:);
+    return self;
 }
 
--(instancetype)init:(NSString*)buttonId withCustomView:(RCTRootView *)reactView {
-	self = [super initWithCustomView:reactView];
-	
-	reactView.sizeFlexibility = RCTRootViewSizeFlexibilityWidthAndHeight;
-	reactView.delegate = self;
-	reactView.backgroundColor = [UIColor clearColor];
+- (instancetype)initWithSFSymbol:(RNNButtonOptions *)buttonOptions
+                         onPress:(RNNButtonPressCallback)onPress {
+    UIImage *iconImage = [UIImage alloc];
+
+    if (@available(iOS 13.0, *)) {
+        iconImage = [UIImage systemImageNamed:[buttonOptions.sfSymbol withDefault:nil]];
+    }
+
+    self = [super initWithImage:iconImage
+                          style:UIBarButtonItemStylePlain
+                         target:self
+                         action:@selector(onButtonPressed:)];
+    [self applyOptions:buttonOptions];
+    self.onPress = onPress;
+    return self;
+}
+
+- (instancetype)initWithIcon:(RNNButtonOptions *)buttonOptions
+                     onPress:(RNNButtonPressCallback)onPress {
+    UIImage *iconImage = buttonOptions.icon.get;
+    self = [super initWithImage:iconImage
+                          style:UIBarButtonItemStylePlain
+                         target:self
+                         action:@selector(onButtonPressed:)];
+    [self applyOptions:buttonOptions];
+    self.onPress = onPress;
+    return self;
+}
+
+- (instancetype)initCustomIcon:(RNNButtonOptions *)buttonOptions
+                   iconCreator:(RNNIconCreator *)iconCreator
+                       onPress:(RNNButtonPressCallback)onPress {
+    _iconCreator = iconCreator;
+    UIImage *icon = [_iconCreator create:buttonOptions];
+    UIButton *button =
+        [[UIButton alloc] initWithFrame:CGRectMake(0, 0, icon.size.width, icon.size.height)];
+    [button addTarget:self
+                  action:@selector(onButtonPressed:)
+        forControlEvents:UIControlEventTouchUpInside];
+    [button setImage:icon
+            forState:buttonOptions.isEnabled ? UIControlStateNormal : UIControlStateDisabled];
+    [button.widthAnchor constraintEqualToConstant:icon.size.width].active = YES;
+    [button.heightAnchor constraintEqualToConstant:icon.size.height].active = YES;
+    self = [super initWithCustomView:button];
+    [self applyOptions:buttonOptions];
+    self.onPress = onPress;
+    return self;
+}
+
+- (instancetype)initWithTitle:(RNNButtonOptions *)buttonOptions
+                      onPress:(RNNButtonPressCallback)onPress {
+    self = [super initWithTitle:buttonOptions.text.get
+                          style:UIBarButtonItemStylePlain
+                         target:self
+                         action:@selector(onButtonPressed:)];
+    self.onPress = onPress;
+    [self applyOptions:buttonOptions];
+    return self;
+}
+
+- (instancetype)initWithCustomView:(RNNReactView *)reactView
+                     buttonOptions:(RNNButtonOptions *)buttonOptions
+                           onPress:(RNNButtonPressCallback)onPress {
+    self = [super initWithCustomView:reactView];
+    [self applyOptions:buttonOptions];
+
+    reactView.sizeFlexibility = RCTRootViewSizeFlexibilityWidthAndHeight;
+    reactView.delegate = self;
+    reactView.backgroundColor = [UIColor clearColor];
     reactView.hidden = CGRectEqualToRect(reactView.frame, CGRectZero);
-    
-	[NSLayoutConstraint deactivateConstraints:reactView.constraints];
-	self.widthConstraint = [NSLayoutConstraint constraintWithItem:reactView
-														attribute:NSLayoutAttributeWidth
-														relatedBy:NSLayoutRelationEqual
-														   toItem:nil
-														attribute:NSLayoutAttributeNotAnAttribute
-													   multiplier:1.0
-														 constant:reactView.intrinsicContentSize.width];
-	self.heightConstraint = [NSLayoutConstraint constraintWithItem:reactView
-														 attribute:NSLayoutAttributeHeight
-														 relatedBy:NSLayoutRelationEqual
-														   	toItem:nil
-														 attribute:NSLayoutAttributeNotAnAttribute
-													   	multiplier:1.0
-														  constant:reactView.intrinsicContentSize.height];
-	[NSLayoutConstraint activateConstraints:@[self.widthConstraint, self.heightConstraint]];
-	self.buttonId = buttonId;
-	return self;
+
+    [NSLayoutConstraint deactivateConstraints:reactView.constraints];
+    self.widthConstraint =
+        [NSLayoutConstraint constraintWithItem:reactView
+                                     attribute:NSLayoutAttributeWidth
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                     attribute:NSLayoutAttributeNotAnAttribute
+                                    multiplier:1.0
+                                      constant:reactView.intrinsicContentSize.width];
+    self.heightConstraint =
+        [NSLayoutConstraint constraintWithItem:reactView
+                                     attribute:NSLayoutAttributeHeight
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                     attribute:NSLayoutAttributeNotAnAttribute
+                                    multiplier:1.0
+                                      constant:reactView.intrinsicContentSize.height];
+    [NSLayoutConstraint activateConstraints:@[ self.widthConstraint, self.heightConstraint ]];
+    self.onPress = onPress;
+    return self;
 }
-	
-- (instancetype)init:(NSString*)buttonId withSystemItem:(NSString *)systemItemName {
-	UIBarButtonSystemItem systemItem = [RCTConvert UIBarButtonSystemItem:systemItemName];
-	self = [super initWithBarButtonSystemItem:systemItem target:nil action:nil];
-	self.buttonId = buttonId;
-	return self;
+
+- (instancetype)initWithSystemItem:(RNNButtonOptions *)buttonOptions
+                           onPress:(RNNButtonPressCallback)onPress {
+    UIBarButtonSystemItem systemItem =
+        [RCTConvert UIBarButtonSystemItem:buttonOptions.systemItem.get];
+    self = [super initWithBarButtonSystemItem:systemItem
+                                       target:self
+                                       action:@selector(onButtonPressed:)];
+    [self applyOptions:buttonOptions];
+    self.onPress = onPress;
+    return self;
+}
+
+- (void)applyOptions:(RNNButtonOptions *)buttonOptions {
+    _buttonOptions = buttonOptions;
+    self.buttonId = buttonOptions.identifier.get;
+    self.accessibilityLabel = [buttonOptions.accessibilityLabel withDefault:nil];
+    self.enabled = [buttonOptions.enabled withDefault:YES];
+    self.accessibilityIdentifier = [buttonOptions.testID withDefault:nil];
+    [self applyColor:[buttonOptions resolveColor]];
+    [self applyTitleTextAttributes:buttonOptions];
+    [self applyDisabledTitleTextAttributes:buttonOptions];
+}
+
+- (void)applyColor:(Color *)color {
+    if (color.hasValue) {
+        NSMutableDictionary *titleTextAttributes = [NSMutableDictionary
+            dictionaryWithDictionary:[self titleTextAttributesForState:UIControlStateNormal]];
+        [titleTextAttributes setValue:color.get forKey:NSForegroundColorAttributeName];
+        [self setTitleTextAttributes:titleTextAttributes forState:UIControlStateNormal];
+        [self setTitleTextAttributes:titleTextAttributes forState:UIControlStateHighlighted];
+    } else
+        self.image = [self.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+    self.tintColor = color.get;
+}
+
+- (void)mergeBackgroundColor:(Color *)color {
+    _buttonOptions.iconBackground.color = color;
+    [self redrawIcon];
+}
+
+- (void)mergeColor:(Color *)color {
+    _buttonOptions.color = color;
+    [self applyColor:color];
+    [self redrawIcon];
+}
+
+- (void)redrawIcon {
+    if (_buttonOptions.icon.hasValue && [self.customView isKindOfClass:UIButton.class]) {
+        UIImage* icon = [_iconCreator create:_buttonOptions];
+        [(UIButton *)self.customView setImage:icon forState:_buttonOptions.state];
+    }
+}
+
+- (void)applyTitleTextAttributes:(RNNButtonOptions *)button {
+    NSMutableDictionary *textAttributes = [NSMutableDictionary
+        dictionaryWithDictionary:[RNNFontAttributesCreator
+                                     createWithFontFamily:[button.fontFamily withDefault:nil]
+                                                 fontSize:[button.fontSize withDefault:@(17)]
+                                               fontWeight:[button.fontWeight withDefault:nil]
+                                                    color:button.color.get]];
+
+    [self setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
+    [self setTitleTextAttributes:textAttributes forState:UIControlStateHighlighted];
+}
+
+- (void)applyDisabledTitleTextAttributes:(RNNButtonOptions *)button {
+    NSMutableDictionary *disabledTextAttributes = [NSMutableDictionary
+        dictionaryWithDictionary:[RNNFontAttributesCreator
+                                     createWithFontFamily:[button.fontFamily withDefault:nil]
+                                                 fontSize:[button.fontSize withDefault:@(17)]
+                                               fontWeight:[button.fontWeight withDefault:nil]
+                                                    color:[button.disabledColor withDefault:nil]]];
+
+    [self setTitleTextAttributes:disabledTextAttributes forState:UIControlStateDisabled];
+}
+
+- (void)notifyWillAppear {
+    if ([self.customView isKindOfClass:[RNNReactView class]]) {
+        [((RNNReactView *)self.customView) componentWillAppear];
+    }
 }
 
 - (void)notifyDidAppear {
@@ -76,17 +212,15 @@
 }
 
 - (void)rootViewDidChangeIntrinsicSize:(RCTRootView *)rootView {
-	self.widthConstraint.constant = rootView.intrinsicContentSize.width;
-	self.heightConstraint.constant = rootView.intrinsicContentSize.height;
-	[rootView setNeedsUpdateConstraints];
-	[rootView updateConstraintsIfNeeded];
+    self.widthConstraint.constant = rootView.intrinsicContentSize.width;
+    self.heightConstraint.constant = rootView.intrinsicContentSize.height;
+    [rootView setNeedsUpdateConstraints];
+    [rootView updateConstraintsIfNeeded];
     rootView.hidden = NO;
 }
 
-- (void)onButtonPressed {
-	[self.target performSelector:self.action
-					  withObject:self
-					  afterDelay:0];
+- (void)onButtonPressed:(RNNUIBarButtonItem *)barButtonItem {
+    self.onPress(self.buttonId);
 }
 
 @end

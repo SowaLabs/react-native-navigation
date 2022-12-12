@@ -4,14 +4,17 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 
-import com.reactnativenavigation.interfaces.ScrollEventListener;
-import com.reactnativenavigation.parse.Options;
+import androidx.annotation.NonNull;
+
+import com.reactnativenavigation.options.ButtonOptions;
+import com.reactnativenavigation.viewcontrollers.viewcontroller.ScrollEventListener;
+import com.reactnativenavigation.options.Options;
 import com.reactnativenavigation.react.ReactView;
 import com.reactnativenavigation.react.events.ComponentType;
-import com.reactnativenavigation.viewcontrollers.TitleBarButtonController;
-import com.reactnativenavigation.views.ComponentLayout;
+import com.reactnativenavigation.viewcontrollers.stack.topbar.button.ButtonController;
+import com.reactnativenavigation.views.component.ComponentLayout;
 
-public class TestComponentLayout extends ComponentLayout implements TitleBarButtonController.OnClickListener {
+public class TestComponentLayout extends ComponentLayout implements ButtonController.OnClickListener {
 
     private ReactView reactView;
 
@@ -32,6 +35,11 @@ public class TestComponentLayout extends ComponentLayout implements TitleBarButt
 
     @Override
     public void destroy() {
+    }
+
+    @Override
+    public void sendComponentWillStart() {
+        reactView.sendComponentStart(ComponentType.Component);
     }
 
     @Override
@@ -65,7 +73,7 @@ public class TestComponentLayout extends ComponentLayout implements TitleBarButt
     }
 
     @Override
-    public void onPress(String buttonId) {
+    public void onPress(@NonNull ButtonOptions button) {
 
     }
 }

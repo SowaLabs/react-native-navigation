@@ -1,7 +1,7 @@
-import forEach from 'lodash/forEach'
-import filter from 'lodash/filter'
-import invoke from 'lodash/invoke'
-import { mock, verify, instance, deepEqual, when, anything, anyString } from 'ts-mockito';
+import forEach from 'lodash/forEach';
+import filter from 'lodash/filter';
+import invoke from 'lodash/invoke';
+import { mock, verify, instance, deepEqual, when, anything, anyString, capture } from 'ts-mockito';
 
 import { LayoutTreeParser } from './LayoutTreeParser';
 import { LayoutTreeCrawler } from './LayoutTreeCrawler';
@@ -12,13 +12,21 @@ import { NativeCommandsSender } from '../adapters/NativeCommandsSender';
 import { OptionsProcessor } from './OptionsProcessor';
 import { UniqueIdProvider } from '../adapters/UniqueIdProvider';
 import { Options } from '../interfaces/Options';
+import { LayoutProcessor } from '../processors/LayoutProcessor';
+import { LayoutProcessorsStore } from '../processors/LayoutProcessorsStore';
+import { CommandName } from '../interfaces/CommandName';
+import { OptionsCrawler } from './OptionsCrawler';
+import React from 'react';
+import { IWrappedComponent } from 'react-native-navigation/components/ComponentWrapper';
 
 describe('Commands', () => {
   let uut: Commands;
   let mockedNativeCommandsSender: NativeCommandsSender;
+  let mockedOptionsProcessor: OptionsProcessor;
   let mockedStore: Store;
   let commandsObserver: CommandsObserver;
   let mockedUniqueIdProvider: UniqueIdProvider;
+  let layoutProcessor: LayoutProcessor;
 
   beforeEach(() => {
     mockedNativeCommandsSender = mock(NativeCommandsSender);
@@ -27,25 +35,31 @@ describe('Commands', () => {
     const uniqueIdProvider = instance(mockedUniqueIdProvider);
     mockedStore = mock(Store);
     commandsObserver = new CommandsObserver(uniqueIdProvider);
+    const layoutProcessorsStore = new LayoutProcessorsStore();
 
-    const mockedOptionsProcessor = mock(OptionsProcessor);
+    mockedOptionsProcessor = mock(OptionsProcessor);
     const optionsProcessor = instance(mockedOptionsProcessor) as OptionsProcessor;
 
+    layoutProcessor = new LayoutProcessor(layoutProcessorsStore);
+    jest.spyOn(layoutProcessor, 'process');
+
     uut = new Commands(
-      mockedStore,
+      instance(mockedStore),
       instance(mockedNativeCommandsSender),
       new LayoutTreeParser(uniqueIdProvider),
       new LayoutTreeCrawler(instance(mockedStore), optionsProcessor),
       commandsObserver,
       uniqueIdProvider,
-      optionsProcessor
+      optionsProcessor,
+      layoutProcessor,
+      new OptionsCrawler(instance(mockedStore), uniqueIdProvider)
     );
   });
 
   describe('setRoot', () => {
     it('sends setRoot to native after parsing into a correct layout tree', () => {
       uut.setRoot({
-        root: { component: { name: 'com.example.MyScreen' } }
+        root: { component: { name: 'com.example.MyScreen' } },
       });
       verify(
         mockedNativeCommandsSender.setRoot(
@@ -55,10 +69,10 @@ describe('Commands', () => {
               type: 'Component',
               id: 'Component+UNIQUE_ID',
               children: [],
-              data: { name: 'com.example.MyScreen', options: {}, passProps: undefined }
+              data: { name: 'com.example.MyScreen', options: {}, passProps: undefined },
             },
             modals: [],
-            overlays: []
+            overlays: [],
           })
         )
       ).called();
@@ -76,7 +90,7 @@ describe('Commands', () => {
       uut.setRoot({
         root: { component: { name: 'com.example.MyScreen' } },
         modals: [{ component: { name: 'com.example.MyModal' } }],
-        overlays: [{ component: { name: 'com.example.MyOverlay' } }]
+        overlays: [{ component: { name: 'com.example.MyOverlay' } }],
       });
       verify(
         mockedNativeCommandsSender.setRoot(
@@ -89,8 +103,8 @@ describe('Commands', () => {
               data: {
                 name: 'com.example.MyScreen',
                 options: {},
-                passProps: undefined
-              }
+                passProps: undefined,
+              },
             },
             modals: [
               {
@@ -100,9 +114,9 @@ describe('Commands', () => {
                 data: {
                   name: 'com.example.MyModal',
                   options: {},
-                  passProps: undefined
-                }
-              }
+                  passProps: undefined,
+                },
+              },
             ],
             overlays: [
               {
@@ -112,13 +126,59 @@ describe('Commands', () => {
                 data: {
                   name: 'com.example.MyOverlay',
                   options: {},
-                  passProps: undefined
-                }
-              }
-            ]
+                  passProps: undefined,
+                },
+              },
+            ],
           })
         )
       ).called();
+    });
+
+    it('process layout with layoutProcessor', () => {
+      uut.setRoot({
+        root: { component: { name: 'com.example.MyScreen' } },
+      });
+      expect(layoutProcessor.process).toBeCalledWith(
+        { component: { name: 'com.example.MyScreen', options: {}, id: 'Component+UNIQUE_ID' } },
+        CommandName.SetRoot
+      );
+    });
+
+    it('pass component static options to layoutProcessor', () => {
+      when(mockedStore.getComponentClassForName('com.example.MyScreen')).thenReturn(
+        () =>
+          class extends React.Component {
+            static options(): Options {
+              return {
+                topBar: {
+                  visible: false,
+                },
+              };
+            }
+          }
+      );
+
+      uut.setRoot({
+        root: { component: { name: 'com.example.MyScreen' } },
+      });
+      expect(layoutProcessor.process).toBeCalledWith(
+        {
+          component: {
+            id: 'Component+UNIQUE_ID',
+            name: 'com.example.MyScreen',
+            options: { topBar: { visible: false } },
+          },
+        },
+        CommandName.SetRoot
+      );
+    });
+
+    it('retains passProps properties identity', () => {
+      const obj = { some: 'content' };
+      uut.setRoot({ root: { component: { name: 'com.example.MyScreen', passProps: { obj } } } });
+      const args = capture(mockedStore.setPendingProps).last();
+      expect(args[1].obj).toBe(obj);
     });
   });
 
@@ -132,17 +192,106 @@ describe('Commands', () => {
         )
       ).called();
     });
+
+    it('show warning when invoking before componentDidMount', () => {
+      jest.spyOn(console, 'warn');
+      when(mockedStore.getComponentInstance('component1')).thenReturn({} as IWrappedComponent);
+      const componentId = 'component1';
+      uut.mergeOptions(componentId, { blurOnUnmount: true });
+      expect(console.warn).toBeCalledWith(
+        `Navigation.mergeOptions was invoked on component with id: ${componentId} before it is mounted, this can cause UI issues and should be avoided.\n Use static options instead.`
+      );
+    });
+
+    it('should not show warning for mounted component', () => {
+      jest.spyOn(console, 'warn');
+      const componentId = 'component1';
+      when(mockedStore.getComponentInstance('component1')).thenReturn({
+        isMounted: true,
+      } as IWrappedComponent);
+
+      uut.mergeOptions('component1', { blurOnUnmount: true });
+      expect(console.warn).not.toBeCalledWith(
+        `Navigation.mergeOptions was invoked on component with id: ${componentId} before it is mounted, this can cause UI issues and should be avoided.\n Use static options instead.`
+      );
+    });
+
+    it('should not show warning for component id that does not exist', () => {
+      jest.spyOn(console, 'warn');
+      const componentId = 'component1';
+      when(mockedStore.getComponentInstance('stackId')).thenReturn(undefined);
+
+      uut.mergeOptions('stackId', { blurOnUnmount: true });
+      expect(console.warn).not.toBeCalledWith(
+        `Navigation.mergeOptions was invoked on component with id: ${componentId} before it is mounted, this can cause UI issues and should be avoided.\n Use static options instead.`
+      );
+    });
+
+    it('processes mergeOptions', async () => {
+      const options = {
+        animations: {
+          dismissModal: {
+            enabled: false,
+          },
+        },
+      };
+
+      uut.mergeOptions('myUniqueId', options);
+      verify(
+        mockedOptionsProcessor.processOptions(
+          CommandName.MergeOptions,
+          deepEqual(options),
+          undefined
+        )
+      ).called();
+    });
+
+    it('processing mergeOptions should pass component props', async () => {
+      const options = {
+        animations: {
+          dismissModal: {
+            enabled: false,
+          },
+        },
+      };
+      const passProps = { prop: '1' };
+
+      when(mockedStore.getPropsForId('myUniqueId')).thenReturn(passProps);
+      uut.mergeOptions('myUniqueId', options);
+      verify(
+        mockedOptionsProcessor.processOptions(
+          CommandName.MergeOptions,
+          deepEqual(options),
+          passProps
+        )
+      ).called();
+    });
   });
 
   describe('updateProps', () => {
     it('delegates to store', () => {
-      uut.updateProps('theComponentId', {someProp: 'someValue'});
-      verify(mockedStore.updateProps('theComponentId', deepEqual({someProp: 'someValue'})));
+      uut.updateProps('theComponentId', { someProp: 'someValue' });
+      verify(mockedStore.updateProps('theComponentId', deepEqual({ someProp: 'someValue' })));
     });
 
     it('notifies commands observer', () => {
-      uut.updateProps('theComponentId', {someProp: 'someValue'});
-      verify(commandsObserver.notify('updateProps', deepEqual({componentId: 'theComponentId', props: {someProp: 'someValue'}})));
+      uut.updateProps('theComponentId', { someProp: 'someValue' });
+      verify(
+        commandsObserver.notify(
+          'updateProps',
+          deepEqual({ componentId: 'theComponentId', props: { someProp: 'someValue' } })
+        )
+      );
+    });
+
+    it('update props with callback', () => {
+      const callback = jest.fn();
+      uut.updateProps('theComponentId', { someProp: 'someValue' }, callback);
+
+      const args = capture(mockedStore.updateProps).last();
+      expect(args[0]).toEqual('theComponentId');
+      expect(args[1]).toEqual({ someProp: 'someValue' });
+      expect(args[2]).toEqual(callback);
     });
   });
 
@@ -158,9 +307,9 @@ describe('Commands', () => {
             data: {
               name: 'com.example.MyScreen',
               options: {},
-              passProps: undefined
+              passProps: undefined,
             },
-            children: []
+            children: [],
           })
         )
       ).called();
@@ -172,6 +321,21 @@ describe('Commands', () => {
       );
       const result = await uut.showModal({ component: { name: 'com.example.MyScreen' } });
       expect(result).toEqual('the resolved layout');
+    });
+
+    it('process layout with layoutProcessor', () => {
+      uut.showModal({ component: { name: 'com.example.MyScreen' } });
+      expect(layoutProcessor.process).toBeCalledWith(
+        { component: { id: 'Component+UNIQUE_ID', name: 'com.example.MyScreen', options: {} } },
+        CommandName.ShowModal
+      );
+    });
+
+    it('retains passProps properties identity', () => {
+      const obj = { some: 'content' };
+      uut.showModal({ component: { name: 'com.example.MyScreen', passProps: { obj } } });
+      const args = capture(mockedStore.setPendingProps).last();
+      expect(args[1].obj).toBe(obj);
     });
   });
 
@@ -194,6 +358,19 @@ describe('Commands', () => {
       const result = await uut.dismissModal('myUniqueId');
       expect(result).toEqual('the id');
     });
+
+    it('processes mergeOptions', async () => {
+      const options = {
+        animations: {
+          dismissModal: {
+            enabled: false,
+          },
+        },
+      };
+
+      uut.dismissModal('myUniqueId', options);
+      verify(mockedOptionsProcessor.processOptions(CommandName.DismissModal, options)).called();
+    });
   });
 
   describe('dismissAllModals', () => {
@@ -211,6 +388,19 @@ describe('Commands', () => {
       const result = await uut.dismissAllModals();
       expect(result).toEqual('the id');
     });
+
+    it('processes mergeOptions', async () => {
+      const options: Options = {
+        animations: {
+          dismissModal: {
+            enabled: false,
+          },
+        },
+      };
+
+      uut.dismissAllModals(options);
+      verify(mockedOptionsProcessor.processOptions(CommandName.DismissAllModals, options)).called();
+    });
   });
 
   describe('push', () => {
@@ -219,7 +409,7 @@ describe('Commands', () => {
         'the resolved layout'
       );
       const result = await uut.push('theComponentId', {
-        component: { name: 'com.example.MyScreen' }
+        component: { name: 'com.example.MyScreen' },
       });
       expect(result).toEqual('the resolved layout');
     });
@@ -236,12 +426,29 @@ describe('Commands', () => {
             data: {
               name: 'com.example.MyScreen',
               options: {},
-              passProps: undefined
+              passProps: undefined,
             },
-            children: []
+            children: [],
           })
         )
       ).called();
+    });
+
+    it('process layout with layoutProcessor', () => {
+      uut.push('theComponentId', { component: { name: 'com.example.MyScreen' } });
+      expect(layoutProcessor.process).toBeCalledWith(
+        { component: { id: 'Component+UNIQUE_ID', name: 'com.example.MyScreen', options: {} } },
+        CommandName.Push
+      );
+    });
+
+    it('retains passProps properties identity', () => {
+      const obj = { some: 'content' };
+      uut.push('theComponentId', {
+        component: { name: 'com.example.MyScreen', passProps: { obj } },
+      });
+      const args = capture(mockedStore.setPendingProps).last();
+      expect(args[1].obj).toBe(obj);
     });
   });
 
@@ -265,6 +472,19 @@ describe('Commands', () => {
       const result = await uut.pop('theComponentId', {});
       expect(result).toEqual('theComponentId');
     });
+
+    it('processes mergeOptions', async () => {
+      const options: Options = {
+        animations: {
+          pop: {
+            enabled: false,
+          },
+        },
+      };
+
+      uut.pop('theComponentId', options);
+      verify(mockedOptionsProcessor.processOptions(CommandName.Pop, options)).called();
+    });
   });
 
   describe('popTo', () => {
@@ -281,6 +501,19 @@ describe('Commands', () => {
       );
       const result = await uut.popTo('theComponentId');
       expect(result).toEqual('theComponentId');
+    });
+
+    it('processes mergeOptions', async () => {
+      const options: Options = {
+        animations: {
+          pop: {
+            enabled: false,
+          },
+        },
+      };
+
+      uut.popTo('theComponentId', options);
+      verify(mockedOptionsProcessor.processOptions(CommandName.PopTo, options)).called();
     });
   });
 
@@ -299,6 +532,19 @@ describe('Commands', () => {
       const result = await uut.popToRoot('theComponentId');
       expect(result).toEqual('theComponentId');
     });
+
+    it('processes mergeOptions', async () => {
+      const options: Options = {
+        animations: {
+          pop: {
+            enabled: false,
+          },
+        },
+      };
+
+      uut.popToRoot('theComponentId', options);
+      verify(mockedOptionsProcessor.processOptions(CommandName.PopToRoot, options)).called();
+    });
   });
 
   describe('setStackRoot', () => {
@@ -315,13 +561,30 @@ describe('Commands', () => {
               data: {
                 name: 'com.example.MyScreen',
                 options: {},
-                passProps: undefined
+                passProps: undefined,
               },
-              children: []
-            }
+              children: [],
+            },
           ])
         )
       ).called();
+    });
+
+    it('process layout with layoutProcessor', () => {
+      uut.setStackRoot('theComponentId', [{ component: { name: 'com.example.MyScreen' } }]);
+      expect(layoutProcessor.process).toBeCalledWith(
+        { component: { id: 'Component+UNIQUE_ID', name: 'com.example.MyScreen', options: {} } },
+        CommandName.SetStackRoot
+      );
+    });
+
+    it('retains passProps properties identity', () => {
+      const obj = { some: 'content' };
+      uut.setStackRoot('theComponentId', [
+        { component: { name: 'com.example.MyScreen', passProps: { obj } } },
+      ]);
+      const args = capture(mockedStore.setPendingProps).last();
+      expect(args[1].obj).toBe(obj);
     });
   });
 
@@ -337,9 +600,9 @@ describe('Commands', () => {
             data: {
               name: 'com.example.MyScreen',
               options: {},
-              passProps: undefined
+              passProps: undefined,
             },
-            children: []
+            children: [],
           })
         )
       ).called();
@@ -351,6 +614,21 @@ describe('Commands', () => {
       );
       const result = await uut.showOverlay({ component: { name: 'com.example.MyScreen' } });
       expect(result).toEqual('Component1');
+    });
+
+    it('process layout with layoutProcessor', () => {
+      uut.showOverlay({ component: { name: 'com.example.MyScreen' } });
+      expect(layoutProcessor.process).toBeCalledWith(
+        { component: { id: 'Component+UNIQUE_ID', name: 'com.example.MyScreen', options: {} } },
+        CommandName.ShowOverlay
+      );
+    });
+
+    it('retains passProps properties identity', () => {
+      const obj = { some: 'content' };
+      uut.showOverlay({ component: { name: 'com.example.MyScreen', passProps: { obj } } });
+      const args = capture(mockedStore.setPendingProps).last();
+      expect(args[1].obj).toBe(obj);
     });
   });
 
@@ -374,7 +652,6 @@ describe('Commands', () => {
     let cb: any;
     let mockedLayoutTreeParser: LayoutTreeParser;
     let mockedLayoutTreeCrawler: LayoutTreeCrawler;
-    let anotherMockedUniqueIdProvider: UniqueIdProvider;
 
     beforeEach(() => {
       cb = jest.fn();
@@ -382,10 +659,6 @@ describe('Commands', () => {
       mockedLayoutTreeCrawler = mock(LayoutTreeCrawler);
       commandsObserver.register(cb);
       const mockedOptionsProcessor = mock(OptionsProcessor) as OptionsProcessor;
-      anotherMockedUniqueIdProvider = mock(UniqueIdProvider);
-      when(anotherMockedUniqueIdProvider.generate(anything())).thenCall(
-        (prefix) => `${prefix}+UNIQUE_ID`
-      );
 
       uut = new Commands(
         mockedStore,
@@ -393,8 +666,10 @@ describe('Commands', () => {
         instance(mockedLayoutTreeParser),
         instance(mockedLayoutTreeCrawler),
         commandsObserver,
-        instance(anotherMockedUniqueIdProvider),
-        instance(mockedOptionsProcessor)
+        instance(mockedUniqueIdProvider),
+        instance(mockedOptionsProcessor),
+        new LayoutProcessor(new LayoutProcessorsStore()),
+        new OptionsCrawler(instance(mockedStore), mockedUniqueIdProvider)
       );
     });
 
@@ -421,12 +696,13 @@ describe('Commands', () => {
         setStackRoot: ['id', [{}]],
         showOverlay: [{}],
         dismissOverlay: ['id'],
-        getLaunchArgs: ['id']
+        dismissAllOverlays: [{}],
+        getLaunchArgs: ['id'],
       };
       const paramsForMethodName: Record<string, object> = {
         setRoot: {
           commandId: 'setRoot+UNIQUE_ID',
-          layout: { root: null, modals: [], overlays: [] }
+          layout: { root: null, modals: [], overlays: [] },
         },
         setDefaultOptions: { options: {} },
         mergeOptions: { componentId: 'id', options: {} },
@@ -441,11 +717,12 @@ describe('Commands', () => {
         setStackRoot: {
           commandId: 'setStackRoot+UNIQUE_ID',
           componentId: 'id',
-          layout: [null]
+          layout: [null],
         },
         showOverlay: { commandId: 'showOverlay+UNIQUE_ID', layout: null },
         dismissOverlay: { commandId: 'dismissOverlay+UNIQUE_ID', componentId: 'id' },
-        getLaunchArgs: { commandId: 'getLaunchArgs+UNIQUE_ID' }
+        dismissAllOverlays: { commandId: 'dismissAllOverlays+UNIQUE_ID' },
+        getLaunchArgs: { commandId: 'getLaunchArgs+UNIQUE_ID' },
       };
       forEach(getAllMethodsOfUut(), (m) => {
         it(`for ${m}`, () => {

@@ -1,11 +1,13 @@
-import isString from 'lodash/isString'
-import isNil from 'lodash/isNil'
-import uniqueId from 'lodash/uniqueId'
-import unset from 'lodash/unset'
-import forEach from 'lodash/forEach'
+import type { Component } from 'react';
+import isString from 'lodash/isString';
+import isNil from 'lodash/isNil';
+import uniqueId from 'lodash/uniqueId';
+import unset from 'lodash/unset';
+import forEach from 'lodash/forEach';
 import { EventSubscription } from '../interfaces/EventSubscription';
 import { NavigationComponentListener } from '../interfaces/NavigationComponentListener';
 import {
+  ComponentWillAppearEvent,
   ComponentDidAppearEvent,
   ComponentDidDisappearEvent,
   NavigationButtonPressedEvent,
@@ -13,9 +15,7 @@ import {
   SearchBarCancelPressedEvent,
   ComponentEvent,
   PreviewCompletedEvent,
-  ModalDismissedEvent,
   ScreenPoppedEvent,
-  ModalAttemptedToDismissEvent
 } from '../interfaces/ComponentEvents';
 import { NativeEventsReceiver } from '../adapters/NativeEventsReceiver';
 import { Store } from '../components/Store';
@@ -30,11 +30,10 @@ export class ComponentEventsObserver {
     private readonly nativeEventsReceiver: NativeEventsReceiver,
     private readonly store: Store
   ) {
+    this.notifyComponentWillAppear = this.notifyComponentWillAppear.bind(this);
     this.notifyComponentDidAppear = this.notifyComponentDidAppear.bind(this);
     this.notifyComponentDidDisappear = this.notifyComponentDidDisappear.bind(this);
     this.notifyNavigationButtonPressed = this.notifyNavigationButtonPressed.bind(this);
-    this.notifyModalDismissed = this.notifyModalDismissed.bind(this);
-    this.notifyModalAttemptedToDismiss = this.notifyModalAttemptedToDismiss.bind(this);
     this.notifySearchBarUpdated = this.notifySearchBarUpdated.bind(this);
     this.notifySearchBarCancelPressed = this.notifySearchBarCancelPressed.bind(this);
     this.notifyPreviewCompleted = this.notifyPreviewCompleted.bind(this);
@@ -42,30 +41,48 @@ export class ComponentEventsObserver {
   }
 
   public registerOnceForAllComponentEvents() {
-    if (this.alreadyRegistered) { return; }
+    if (this.alreadyRegistered) {
+      return;
+    }
     this.alreadyRegistered = true;
+    this.nativeEventsReceiver.registerComponentWillAppearListener(this.notifyComponentWillAppear);
     this.nativeEventsReceiver.registerComponentDidAppearListener(this.notifyComponentDidAppear);
-    this.nativeEventsReceiver.registerComponentDidDisappearListener(this.notifyComponentDidDisappear);
-    this.nativeEventsReceiver.registerNavigationButtonPressedListener(this.notifyNavigationButtonPressed);
-    this.nativeEventsReceiver.registerModalDismissedListener(this.notifyModalDismissed);
-    this.nativeEventsReceiver.registerModalAttemptedToDismissListener(this.notifyModalAttemptedToDismiss);
+    this.nativeEventsReceiver.registerComponentDidDisappearListener(
+      this.notifyComponentDidDisappear
+    );
+    this.nativeEventsReceiver.registerNavigationButtonPressedListener(
+      this.notifyNavigationButtonPressed
+    );
     this.nativeEventsReceiver.registerSearchBarUpdatedListener(this.notifySearchBarUpdated);
-    this.nativeEventsReceiver.registerSearchBarCancelPressedListener(this.notifySearchBarCancelPressed);
+    this.nativeEventsReceiver.registerSearchBarCancelPressedListener(
+      this.notifySearchBarCancelPressed
+    );
     this.nativeEventsReceiver.registerPreviewCompletedListener(this.notifyPreviewCompleted);
     this.nativeEventsReceiver.registerScreenPoppedListener(this.notifyPreviewCompleted);
   }
 
-  public bindComponent(component: React.Component<any>, componentId?: string): EventSubscription {
+  public bindComponent(
+    component: Component<{ componentId?: string }>,
+    componentId?: string
+  ): EventSubscription {
     const computedComponentId = componentId || component.props.componentId;
 
     if (!isString(computedComponentId)) {
-      throw new Error(`bindComponent expects a component with a componentId in props or a componentId as the second argument`);
+      throw new Error(
+        `bindComponent expects a component with a componentId in props or a componentId as the second argument`
+      );
     }
-    
-    return this.registerComponentListener(component as NavigationComponentListener, computedComponentId);
+
+    return this.registerComponentListener(
+      component as NavigationComponentListener,
+      computedComponentId
+    );
   }
 
-  public registerComponentListener(listener: NavigationComponentListener, componentId: string): EventSubscription {
+  public registerComponentListener(
+    listener: NavigationComponentListener,
+    componentId: string
+  ): EventSubscription {
     if (!isString(componentId)) {
       throw new Error(`registerComponentListener expects a componentId as the second argument`);
     }
@@ -82,6 +99,11 @@ export class ComponentEventsObserver {
     unset(this.listeners, componentId);
   }
 
+  notifyComponentWillAppear(event: ComponentWillAppearEvent) {
+    event.passProps = this.store.getPropsForId(event.componentId);
+    this.triggerOnAllListenersByComponentId(event, 'componentWillAppear');
+  }
+
   notifyComponentDidAppear(event: ComponentDidAppearEvent) {
     event.passProps = this.store.getPropsForId(event.componentId);
     this.triggerOnAllListenersByComponentId(event, 'componentDidAppear');
@@ -93,14 +115,6 @@ export class ComponentEventsObserver {
 
   notifyNavigationButtonPressed(event: NavigationButtonPressedEvent) {
     this.triggerOnAllListenersByComponentId(event, 'navigationButtonPressed');
-  }
-
-  notifyModalDismissed(event: ModalDismissedEvent) {
-    this.triggerOnAllListenersByComponentId(event, 'modalDismissed');
-  }
-
-  notifyModalAttemptedToDismiss(event: ModalAttemptedToDismissEvent) {
-    this.triggerOnAllListenersByComponentId(event, 'modalAttemptedToDismiss');
   }
 
   notifySearchBarUpdated(event: SearchBarUpdatedEvent) {

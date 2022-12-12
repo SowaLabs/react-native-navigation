@@ -4,16 +4,15 @@ import android.app.Activity;
 import android.view.View;
 
 import com.facebook.react.ReactInstanceManager;
-import com.reactnativenavigation.parse.ExternalComponent;
-import com.reactnativenavigation.parse.Options;
-import com.reactnativenavigation.presentation.ExternalComponentPresenter;
-import com.reactnativenavigation.presentation.Presenter;
+import com.reactnativenavigation.options.ExternalComponent;
+import com.reactnativenavigation.options.Options;
+import com.reactnativenavigation.viewcontrollers.viewcontroller.Presenter;
 import com.reactnativenavigation.react.events.ComponentType;
 import com.reactnativenavigation.react.events.EventEmitter;
 import com.reactnativenavigation.utils.CoordinatorLayoutUtils;
-import com.reactnativenavigation.utils.StatusBarUtils;
-import com.reactnativenavigation.viewcontrollers.ChildController;
-import com.reactnativenavigation.viewcontrollers.ChildControllersRegistry;
+import com.reactnativenavigation.utils.SystemUiUtils;
+import com.reactnativenavigation.viewcontrollers.child.ChildController;
+import com.reactnativenavigation.viewcontrollers.child.ChildControllersRegistry;
 import com.reactnativenavigation.views.BehaviourDelegate;
 import com.reactnativenavigation.views.ExternalComponentLayout;
 
@@ -39,7 +38,7 @@ public class ExternalComponentViewController extends ChildController<ExternalCom
     }
 
     @Override
-    protected ExternalComponentLayout createView() {
+    public ExternalComponentLayout createView() {
         ExternalComponentLayout content = new ExternalComponentLayout(getActivity());
         enableDrawingBehindStatusBar(content);
         content.addView(componentCreator
@@ -54,8 +53,9 @@ public class ExternalComponentViewController extends ChildController<ExternalCom
     }
 
     @Override
-    public void onViewAppeared() {
-        super.onViewAppeared();
+    public void onViewWillAppear() {
+        emitter.emitComponentWillAppear(getId(), externalComponent.name.get(), ComponentType.Component);
+        super.onViewWillAppear();
         emitter.emitComponentDidAppear(getId(), externalComponent.name.get(), ComponentType.Component);
     }
 
@@ -72,7 +72,7 @@ public class ExternalComponentViewController extends ChildController<ExternalCom
 
     @Override
     public int getTopInset() {
-        int statusBarInset = resolveCurrentOptions().statusBar.drawBehind.isTrue() ? 0 : StatusBarUtils.getStatusBarHeight(getActivity());
+        int statusBarInset = resolveCurrentOptions().statusBar.drawBehind.isTrue() ? 0 : SystemUiUtils.getStatusBarHeight(getActivity());
         return statusBarInset + perform(getParentController(), 0, p -> p.getTopInset(this));
     }
 
