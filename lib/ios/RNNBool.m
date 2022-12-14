@@ -9,7 +9,7 @@
 @implementation RNNBool
 
 + (instancetype)withValue:(BOOL)value {
-    return [[Bool alloc] initWithBOOL:value];
+    return [[RNNBool alloc] initWithBOOL:value];
 }
 
 - (instancetype)initWithBOOL:(BOOL)boolValue {

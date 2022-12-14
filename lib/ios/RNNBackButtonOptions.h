@@ -12,10 +12,10 @@
 @property(nonatomic, strong) Color *color;
 @property(nonatomic, strong) RNNBool* showTitle;
 @property(nonatomic, strong) RNNBool* visible;
-@property(nonatomic, strong) Bool *enableMenu;
+@property(nonatomic, strong) RNNBool *enableMenu;
 @property(nonatomic, strong) Text *displayMode;
 @property(nonatomic, strong) Text *identifier;
-@property(nonatomic, strong) Bool *popStackOnPress;
+@property(nonatomic, strong) RNNBool *popStackOnPress;
 
 
 - (BOOL)hasValue;

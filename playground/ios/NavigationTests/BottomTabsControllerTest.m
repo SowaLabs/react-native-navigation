@@ -1,11 +1,11 @@
-#import "RNNBottomTabsController+Helpers.h"
-#import "RNNComponentViewController+Utils.h"
+#import "RNNBottomTabsControllerHelpers.h"
+#import "RNNComponentViewControllerUtils.h"
 #import "RNNStackController.h"
 #import <OCMock/OCMock.h>
 #import <ReactNativeNavigation/BottomTabPresenterCreator.h>
 #import <ReactNativeNavigation/RNNBottomTabsController.h>
 #import <ReactNativeNavigation/RNNComponentViewController.h>
-#import <ReactNativeNavigation/UITabBar+utils.h>
+#import <ReactNativeNavigation/UITabBarutils.h>
 #import <XCTest/XCTest.h>
 
 @interface BottomTabsControllerTest : XCTestCase
@@ -208,6 +208,18 @@
 
     [uut setSelectedIndexByComponentID:@"componentId"];
     XCTAssertTrue(uut.selectedIndex == 1);
+}
+
+- (void)testDidSelectViewController_emitEventOnTabPress {
+    RNNNavigationOptions *options = [[RNNNavigationOptions alloc] initEmptyOptions];
+    RNNComponentViewController *vc = [[RNNComponentViewController alloc] initWithLayoutInfo:nil rootViewCreator:nil eventEmitter:nil presenter:nil options:nil defaultOptions:nil];
+	RNNBottomTabsController *uut = [RNNBottomTabsController createWithChildren:@[[UIViewController new], vc] options:options];
+	[uut viewWillAppear:YES];
+
+	[[(id)uut.eventEmitter expect] sendBottomTabSelected:@(1) unselected:@(0)];
+	[uut setSelectedViewController:vc];
+	[uut tabBarController:uut didSelectViewController:vc];
+	[(id)uut.eventEmitter verify];
 }
 
 - (void)testSetSelectedIndex_ShouldSetSelectedIndexWithCurrentTabIndex {

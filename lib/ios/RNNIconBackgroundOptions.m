@@ -1,10 +1,10 @@
 #import "RNNIconBackgroundOptions.h"
 
 @implementation RNNIconBackgroundOptions {
-    Bool *_enabled;
+    RNNBool *_enabled;
 }
 
-- (instancetype)initWithDict:(NSDictionary *)dict enabled:(Bool *)enabled {
+- (instancetype)initWithDict:(NSDictionary *)dict enabled:(RNNBool *)enabled {
     self = [super initWithDict:dict];
     self.color = [ColorParser parse:dict key:@"color"];
     self.disabledColor = [ColorParser parse:dict key:@"disabledColor"];
@@ -15,7 +15,7 @@
     return self;
 }
 
-- (void)setEnabled:(Bool *)enabled {
+- (void)setEnabled:(RNNBool *)enabled {
     _enabled = enabled;
 }
 

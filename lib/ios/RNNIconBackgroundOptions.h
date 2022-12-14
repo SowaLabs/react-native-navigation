@@ -2,11 +2,11 @@
 
 @interface RNNIconBackgroundOptions : RNNOptions <NSCopying>
 
-- (instancetype)initWithDict:(NSDictionary *)dict enabled:(Bool *)enabled;
+- (instancetype)initWithDict:(NSDictionary *)dict enabled:(RNNBool *)enabled;
 
 - (BOOL)hasValue;
 
-- (void)setEnabled:(Bool *)enabled;
+- (void)setEnabled:(RNNBool *)enabled;
 
 @property(nonatomic, strong) Color *color;
 @property(nonatomic, strong) Color *disabledColor;

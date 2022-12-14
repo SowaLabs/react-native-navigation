@@ -134,12 +134,6 @@
     [super setSelectedViewController:selectedViewController];
 }
 
-- (void)setSelectedViewController:(__kindof UIViewController *)selectedViewController {
-    NSArray* children = self.pendingChildViewControllers ?: self.childViewControllers;
-    _currentTabIndex = [children indexOfObject:selectedViewController];
-    [super setSelectedViewController:selectedViewController];
-}
-
 - (void)loadChildren:(NSArray *)children {
     if (self.viewWillAppearOnce) {
         [super loadChildren:children];

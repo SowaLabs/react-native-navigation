@@ -2,11 +2,11 @@
 
 @interface RNNSearchBarOptions : RNNOptions
 
-@property(nonatomic, strong) Bool *visible;
-@property(nonatomic, strong) Bool *focus;
-@property(nonatomic, strong) Bool *hideOnScroll;
-@property(nonatomic, strong) Bool *hideTopBarOnFocus;
-@property(nonatomic, strong) Bool *obscuresBackgroundDuringPresentation;
+@property(nonatomic, strong) RNNBool *visible;
+@property(nonatomic, strong) RNNBool *focus;
+@property(nonatomic, strong) RNNBool *hideOnScroll;
+@property(nonatomic, strong) RNNBool *hideTopBarOnFocus;
+@property(nonatomic, strong) RNNBool *obscuresBackgroundDuringPresentation;
 @property(nonatomic, strong) Color *backgroundColor;
 @property(nonatomic, strong) Color *tintColor;
 @property(nonatomic, strong) Text *placeholder;

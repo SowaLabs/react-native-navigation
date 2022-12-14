@@ -35,10 +35,10 @@
 
 + (RNNInsetsOptions *)withValue:(UIEdgeInsets)insets {
     RNNInsetsOptions *insetsOptions = RNNInsetsOptions.new;
-    insetsOptions.top = [Double withValue:insets.top];
-    insetsOptions.left = [Double withValue:insets.left];
-    insetsOptions.bottom = [Double withValue:insets.bottom];
-    insetsOptions.right = [Double withValue:insets.right];
+    insetsOptions.top = [RNNDouble withValue:insets.top];
+    insetsOptions.left = [RNNDouble withValue:insets.left];
+    insetsOptions.bottom = [RNNDouble withValue:insets.bottom];
+    insetsOptions.right = [RNNDouble withValue:insets.right];
 
     return insetsOptions;
 }

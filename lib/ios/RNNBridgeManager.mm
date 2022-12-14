@@ -1,3 +1,5 @@
+
+
 #import "RNNBridgeManager.h"
 
 #import "RNNBridgeModule.h"
@@ -118,6 +120,32 @@
       [self->_componentRegistry clear];
       UIApplication.sharedApplication.delegate.window.rootViewController = nil;
     });
+}
+
+# pragma mark - exposed for BISON
+
+-(void)setRoot:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(NSString *))completionBlock {
+	[_commandsHandler setRoot:layout commandId:commandId completion:^(NSString *commandId){
+		if (completionBlock) {
+			completionBlock(commandId);
+		}
+	}];
+}
+
+-(void)showModal:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(NSString *))completionBlock {
+	[_commandsHandler showModal:layout commandId:commandId completion:^(NSString *componentId) {
+		if (completionBlock) {
+			completionBlock(componentId);
+		}
+	}];
+}
+
+-(void)dismissModal:(NSString*)componentId commandId:(NSString *)commandId mergeOptions:(NSDictionary*)options completion:(void (^)(NSString *))completionBlock {
+	[_commandsHandler dismissModal:componentId commandId:commandId mergeOptions:options completion:^(NSString *componentId){
+		if (completionBlock) {
+			completionBlock(componentId);
+		}
+	} rejection:NULL];
 }
 
 @end
