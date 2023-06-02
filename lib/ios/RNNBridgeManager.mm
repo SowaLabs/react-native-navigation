@@ -148,4 +148,8 @@
 	} rejection:NULL];
 }
 
+-(void)dismissAllOverlays:(NSString *)commandId {
+    [_commandsHandler dismissAllOverlays:commandId];
+}
+
 @end

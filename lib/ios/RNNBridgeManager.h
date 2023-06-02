@@ -19,6 +19,6 @@ typedef UIViewController * (^RNNExternalViewCreator)(NSDictionary *props, RCTBri
 -(void)setRoot:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(NSString *))completionBlock;
 -(void)showModal:(NSString*)commandId layout:(NSDictionary*)layout completion:(void (^)(NSString *))completionBlock;
 -(void)dismissModal:(NSString*)commandId componentId:(NSString*)componentId mergeOptions:(NSDictionary*)options completion:(void (^)(NSString *))completionBlock;
-
+-(void)dismissAllOverlays:(NSString*)commandId;
 
 @end
