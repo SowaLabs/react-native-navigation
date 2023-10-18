@@ -48,6 +48,7 @@ function testTarget(scheme, device, OS = 'latest') {
     -derivedDataPath ./DerivedData/playground
     ONLY_ACTIVE_ARCH=YES`);
   } catch (error) {
+    exec.execSync('cp -R playground/ios/SnapshotTests/FailureDiffs ./artifacts');
     if (!RECORD) {
       throw 'Snapshot tests failed';
     }

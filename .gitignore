@@ -245,3 +245,5 @@ lib/Mock/*.js
 lib/Mock/*.d.ts
 Mock.js
 Mock.d.ts
+
+Gemfile.lock
