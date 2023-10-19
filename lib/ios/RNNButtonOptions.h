@@ -22,7 +22,7 @@
 @property(nonatomic, strong) RNNBool *selectTabOnPress;
 @property(nonatomic, strong) RNNComponentOptions *component;
 @property(nonatomic, strong) RNNIconBackgroundOptions *iconBackground;
-@property(nonatomic, strong) Bool *disableIconTint;
+@property(nonatomic, strong) RNNBool *disableIconTint;
 
 - (RNNButtonOptions *)withDefault:(RNNButtonOptions *)defaultOptions;
 
