@@ -66,15 +66,25 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 
             @Override
             public void onHostResume() {
-                eventEmitter = new EventEmitter(reactContext);
-                navigator().setEventEmitter(eventEmitter);
-                layoutFactory.init(
-                        activity(),
-                        eventEmitter,
-                        navigator().getChildRegistry(),
-                        ((NavigationApplication) activity().getApplication()).getExternalComponents()
+                // patch for the crash
+                // https://github.com/wix/react-native-navigation/issues/7593#issuecomment-1245475643
+                if (getCurrentActivity() != null) {
+                  eventEmitter = new EventEmitter(reactContext);
+                  navigator().setEventEmitter(eventEmitter);
+                  layoutFactory.init(
+                    activity(),
+                    eventEmitter,
+                    navigator().getChildRegistry(),
+                    ((NavigationApplication) activity().getApplication()).getExternalComponents()
+                  );
+                }
+                UiUtils.runOnMainThread(
+                  () -> {
+                    if (getCurrentActivity() != null) {
+                      navigator().onHostResume();
+                    }
+                  }
                 );
-                UiUtils.runOnMainThread(() -> navigator().onHostResume());
             }
         });
     }
