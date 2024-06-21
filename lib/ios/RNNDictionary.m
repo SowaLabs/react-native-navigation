@@ -1,8 +1,8 @@
 #import "RNNDictionary.h"
 
-@interface RNNDictionary()
+@interface RNNDictionary ()
 
-@property (nonatomic, retain) NSDictionary* value;
+@property(nonatomic, retain) NSDictionary *value;
 
 @end
 

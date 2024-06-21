@@ -4,13 +4,11 @@ interface ApplicationProps {
 }
 export declare const Application: {
     new (props: ApplicationProps): {
-        render(): JSX.Element;
-        context: any;
+        render(): React.JSX.Element;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<ApplicationProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<ApplicationProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<ApplicationProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;

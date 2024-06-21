@@ -15,6 +15,6 @@ export declare class Modal extends React.Component<RNNModalProps> {
         animationType: string;
     };
     constructor(props: RNNModalProps);
-    render(): JSX.Element | null;
+    render(): React.JSX.Element | null;
     private proccessProps;
 }

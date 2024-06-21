@@ -8,17 +8,15 @@ export interface TopBarProps {
 }
 export declare const TopBar: {
     new (props: TopBarProps): {
-        render(): JSX.Element | null;
+        render(): React.JSX.Element | null;
         shouldRenderBackButton(layoutNode: ParentNode): boolean;
-        renderButtons(buttons?: OptionsTopBarButton[]): JSX.Element[];
-        renderBackButton(): JSX.Element;
-        renderComponent(id: string, name: string, testID?: string | undefined): JSX.Element;
-        context: any;
+        renderButtons(buttons?: OptionsTopBarButton[]): React.JSX.Element[];
+        renderBackButton(): React.JSX.Element;
+        renderComponent(id: string, name: string, testID?: string | undefined): React.JSX.Element;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<TopBarProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<TopBarProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<TopBarProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;

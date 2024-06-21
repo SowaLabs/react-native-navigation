@@ -4,14 +4,12 @@ export declare const ComponentScreen: {
     new (props: ComponentProps): {
         componentDidMount(): void;
         isVisible(): boolean;
-        renderTabBar(): JSX.Element | null;
-        render(): JSX.Element;
-        context: any;
+        renderTabBar(): React.JSX.Element | null;
+        render(): React.JSX.Element;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<ComponentProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<ComponentProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<ComponentProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;

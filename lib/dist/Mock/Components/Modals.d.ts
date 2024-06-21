@@ -1,14 +1,12 @@
 import React from 'react';
 import { ComponentProps } from '../ComponentProps';
 export declare const Modals: {
-    new (props: Readonly<ComponentProps>): {
-        render(): JSX.Element;
-        context: any;
+    new (props: ComponentProps): {
+        render(): React.JSX.Element;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<ComponentProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<ComponentProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<ComponentProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;
@@ -26,14 +24,12 @@ export declare const Modals: {
         componentWillUpdate?(nextProps: Readonly<ComponentProps>, nextState: Readonly<{}>, nextContext: any): void;
         UNSAFE_componentWillUpdate?(nextProps: Readonly<ComponentProps>, nextState: Readonly<{}>, nextContext: any): void;
     };
-    new (props: ComponentProps, context?: any): {
-        render(): JSX.Element;
-        context: any;
+    new (props: ComponentProps, context: any): {
+        render(): React.JSX.Element;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<ComponentProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<ComponentProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<ComponentProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;

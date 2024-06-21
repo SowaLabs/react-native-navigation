@@ -38,6 +38,6 @@ export declare class TouchablePreview extends React.PureComponent<Props> {
     onTouchStart: (event: GestureResponderEvent) => void;
     onTouchMove: (event: GestureResponderEventWithForce) => void;
     onTouchEnd: () => void;
-    render(): JSX.Element;
+    render(): React.JSX.Element;
 }
 export {};

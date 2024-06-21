@@ -5,17 +5,15 @@ interface ButtonProps {
     componentId: string;
 }
 export declare const NavigationButton: {
-    new (props: Readonly<ButtonProps>): {
+    new (props: ButtonProps): {
         ref: undefined;
-        render(): JSX.Element;
-        renderButtonComponent(): JSX.Element;
+        render(): React.JSX.Element;
+        renderButtonComponent(): React.JSX.Element;
         invokeOnClick(stateNode: any): void;
-        context: any;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<ButtonProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<ButtonProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<ButtonProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;
@@ -33,17 +31,15 @@ export declare const NavigationButton: {
         componentWillUpdate?(nextProps: Readonly<ButtonProps>, nextState: Readonly<{}>, nextContext: any): void;
         UNSAFE_componentWillUpdate?(nextProps: Readonly<ButtonProps>, nextState: Readonly<{}>, nextContext: any): void;
     };
-    new (props: ButtonProps, context?: any): {
+    new (props: ButtonProps, context: any): {
         ref: undefined;
-        render(): JSX.Element;
-        renderButtonComponent(): JSX.Element;
+        render(): React.JSX.Element;
+        renderButtonComponent(): React.JSX.Element;
         invokeOnClick(stateNode: any): void;
-        context: any;
+        context: unknown;
         setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: Readonly<ButtonProps>) => {} | Pick<{}, K> | null) | Pick<{}, K> | null, callback?: (() => void) | undefined): void;
         forceUpdate(callback?: (() => void) | undefined): void;
-        readonly props: Readonly<ButtonProps> & Readonly<{
-            children?: React.ReactNode;
-        }>;
+        readonly props: Readonly<ButtonProps>;
         state: Readonly<{}>;
         refs: {
             [key: string]: React.ReactInstance;
