@@ -10,11 +10,11 @@
     return CATransform3DMakeScale(scaleX, 1, 1);
 }
 
-- (CGFloat)calculateFrom:(Double *)from {
+- (CGFloat)calculateFrom:(RNNDouble *)from {
     return from.hasValue ? from.get : 1;
 }
 
-- (CGFloat)calculateTo:(Double *)to {
+- (CGFloat)calculateTo:(RNNDouble *)to {
     return to.hasValue ? to.get : 1;
 }
 
